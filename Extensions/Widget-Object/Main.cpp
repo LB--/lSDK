@@ -1,49 +1,70 @@
 #include "Common.hpp"
+
+#include <fstream>
 #include <ctime>
 
-HINSTANCE DLL (0);
-BOOL WINAPI DllMain(HINSTANCE Dll, DWORD Reason, LPVOID)
+HINSTANCE DLL = 0;
+BOOL WINAPI DllMain(HINSTANCE Dll, DWORD Reason, LPVOID lpReserved)
 {
 	switch(Reason)
 	{
 	case DLL_PROCESS_ATTACH:
 		{
 			DLL = Dll;
-			break;
-		}
+			DM("DLL process attaching(p", "lpReserved", lpReserved);
+		} break;
+	case DLL_PROCESS_DETACH:
+		{
+			DM("DLL process detaching(p", "lpReserved", lpReserved);
+		} break;
+	case DLL_THREAD_ATTACH:
+		{
+			DM("DLL thread attaching(p", "lpReserved", lpReserved);
+		} break;
+	case DLL_THREAD_DETACH:
+		{
+			DM("DLL thread detaching(p", "lpReserved", lpReserved);
+		} break;
 	}
 	return TRUE;
 }
 
 #ifdef DEBUG
-void DebugLog(const char *func, ...)
+struct GlobalLifetimeDebug
 {
-	static bool first = true;
-	std::basic_ofstream<TCHAR> dbo ("C:/Widget_Debug.txt", std::ios_base::out|std::ios_base::ate|std::ios_base::app);
-	if(first)
+	GlobalLifetimeDebug()
 	{
-		first = false;
-		dbo << "Widget+ Object, Version #" << ExtensionVersionNumber << std::endl;
+		DebugLog("constructing globals(i", "Widget+ Object Version", ExtensionVersionNumber);
 	}
+	~GlobalLifetimeDebug()
+	{
+		DebugLog("destructing globals(");
+	}
+}gld;
+void DebugLog(char const *func, ...)
+{
+	std::basic_ofstream<wchar_t> dbo ("C:/Widget_Debug.txt", std::ios_base::out|std::ios_base::ate|std::ios_base::app);
 
-	stdstring f (func);
-	dbo << f.substr(0, f.find('(')) << std::endl;
+	std::string f (func);
+	dbo << lSDK::EnsureWide(f.substr(0, f.find('('))) << L" (DLL = 0x" << (void *)DLL << L")" << std::endl;
 	f = f.substr(f.find('(')+1);
 
-	va_list Vars;
-	va_start(Vars, func);
-	for(stdstring::const_iterator it = f.begin(); it != f.end(); ++it)
+	va_list vars;
+	va_start(vars, func);
+	for(std::string::const_iterator it = f.begin(); it != f.end(); ++it)
 	{
-		dbo << '\t' << va_arg(Vars, const char *) << " = ";
+		dbo << L'\t' << lSDK::EnsureWide(va_arg(vars, char const *)) << " = ";
 		switch(*it)
 		{
-		case 'p':	dbo << "0x" << va_arg(Vars, void *);				break;
-		case 'i':	dbo << va_arg(Vars, long);							break;
-		case 's':	dbo << '"' << va_arg(Vars, const TCHAR *) << '"' ;	break;
+		case 'p': dbo << L"0x"    <<                  va_arg(vars, void *);                   break;
+		case 'i': dbo <<                              va_arg(vars, int);                      break;
+		case 's': dbo << L'"'     << lSDK::EnsureWide(va_arg(vars, char const *))   << '"';   break;
+		case 'u': dbo << L"L\""   <<                  va_arg(vars, wchar_t const *) << '"';   break;
+		case 't': dbo << L"_T(\"" << lSDK::EnsureWide(va_arg(vars, TCHAR const *))  << "\")"; break;
 		}
 		dbo << std::endl;
 	}
-	va_end(Vars);
+	va_end(vars);
 }
 #endif
 
@@ -70,7 +91,7 @@ DWORD MMF2Func GetInfos(int Which)
 //						return PRODUCT_VERSION_HOME;		//TGF2 Full
 						return PRODUCT_VERSION_STANDARD;	//MMF2 Standard
 //						return PRODUCT_VERSION_DEV;			//MMF2 Developer
-	case KGI_BUILD:		return 255;
+	case KGI_BUILD:		return 257;
 	case KGI_UNICODE:	return
 		#ifdef UNICODE
 			TRUE
@@ -88,7 +109,7 @@ short MMF2Func GetRunObjectInfos(mv *mV, kpxRunInfos *Info)
 {
 	DM("GetRunObjectInfos(pp", "mV", mV, "Info", Info);
 
-	Info->identifier = *reinterpret_cast<long*>("Wig+");
+	Info->identifier = *reinterpret_cast<long const *>("Wig+");
 	Info->version = 0;
 
 	Info->numOfConditions = 1;
@@ -149,7 +170,7 @@ HGLOBAL MMF2Func UpdateEditStructure(mv *mV, SerializedED *OldSED)
 }
 void MMF2Func UpdateFileNames(mv *mV, LPTSTR AppName, SerializedED *SED, void (__stdcall *Update)(LPTSTR, LPTSTR))
 {
-	DM("UpdateFileNames(pspp", "mV", mV, "AppName", AppName, "SED", SED, "Update()", Update);
+	DM("UpdateFileNames(ptpp", "mV", mV, "AppName", AppName, "SED", SED, "Update()", Update);
 }
 
 int MMF2Func EnumElts(mv *mV, SerializedED *SED, ENUMELTPROC enumProc, ENUMELTPROC undoProc, LPARAM lp1, LPARAM lp2)

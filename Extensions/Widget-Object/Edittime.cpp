@@ -8,14 +8,14 @@ int MMF2Func CreateObject(mv *mV, LO *lo, SerializedED *SED)
 }
 BOOL MMF2Func UsesFile(mv *mV, LPTSTR Filename)
 {
-	DM("UsesFile(ps", "mV", mV, "Filename", Filename);
+	DM("UsesFile(pt", "mV", mV, "Filename", Filename);
 	TCHAR FileExtension[_MAX_EXT];
 	_tsplitpath(Filename, NULL, NULL, NULL, FileExtension);
-	return stdstring(FileExtension) == ".wdf" ? TRUE : FALSE;
+	return std::basic_string<TCHAR>(FileExtension) == _T(".wdf") ? TRUE : FALSE;
 }
 void MMF2Func CreateFromFile(mv *mV, LPTSTR Filename, SerializedED *SED)
 {
-	DM("CreateFromFile(psp", "mV", mV, "Filename", Filename, "SED", SED);
+	DM("CreateFromFile(ptp", "mV", mV, "Filename", Filename, "SED", SED);
 }
 void MMF2Func PutObject(mv *mV, LO *lo, SerializedED *SED, unsigned short othersame)
 {
@@ -84,5 +84,5 @@ BOOL MMF2Func GetFilters(mv *mV, SerializedED *SED, DWORD Flags, LPVOID)
 
 void MMF2Func PrepareFlexBuild(mv *mV, SerializedED *SED, LPCWSTR TempFolder)
 {
-	DM("PrepareFlexBuild(pp", "mV", mV, "SED", SED);
+	DM("PrepareFlexBuild(ppu", "mV", mV, "SED", SED, "TempFolder", TempFolder);
 }

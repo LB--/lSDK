@@ -47,7 +47,7 @@
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\..\Include\"
+				AdditionalIncludeDirectories="..\..\include\"
 				PreprocessorDefinitions="DEBUG;RELEASE;EDITTIME"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -84,12 +84,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="mmfs2.lib"
-				OutputFile="$(OutDir)\Widget.mfx"
+				OutputFile="Widget.mfx"
 				Version=""
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\Libraries\"
+				AdditionalLibraryDirectories="..\..\lib\"
 				GenerateManifest="false"
-				ModuleDefinitionFile="Exports.def"
+				ModuleDefinitionFile="ext.def"
 				TypeLibraryResourceID="1"
 				GenerateDebugInformation="false"
 				AssemblyDebug="0"
@@ -134,7 +134,7 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
+			Name="Indivdual"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
@@ -172,16 +172,12 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Header Files"
+			Name="Common"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
 				RelativePath=".\Common.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DataFileStream.hpp"
 				>
 			</File>
 			<File
@@ -192,18 +188,14 @@
 				RelativePath=".\RunData.hpp"
 				>
 			</File>
-			<File
-				RelativePath=".\StringConvert.hpp"
-				>
-			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
+			Name="Resources"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\Exports.def"
+				RelativePath=".\Ext.def"
 				>
 			</File>
 			<File
@@ -212,6 +204,18 @@
 			</File>
 			<File
 				RelativePath=".\Resources.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="lSDK"
+			>
+			<File
+				RelativePath="..\..\lib\lSDK\UnicodeSupport.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\lSDK\UnicodeSupport.hpp"
 				>
 			</File>
 		</Filter>

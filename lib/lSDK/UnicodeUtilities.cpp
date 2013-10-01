@@ -1,4 +1,4 @@
-#include "lSDK/UnicodeSupport.hpp"
+#include "lSDK/UnicodeUtilities.hpp"
 
 #include <Windows.h>
 

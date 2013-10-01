@@ -12,7 +12,7 @@
 
 extern HINSTANCE DLL;
 
-#include "lSDK/UnicodeSupport.hpp"
+#include "lSDK/UnicodeUtilities.hpp"
 
 #ifdef DEBUG
 void DebugLog(char const *func, ...);
@@ -22,6 +22,8 @@ void DebugLog(char const *func, ...);
 #endif
 
 #define ExtensionVersionNumber 0
+
+#include "json.h"
 
 #include "EditData.hpp"
 #include "RunData.hpp"

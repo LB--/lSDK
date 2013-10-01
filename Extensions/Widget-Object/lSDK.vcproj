@@ -211,11 +211,23 @@
 			Name="lSDK"
 			>
 			<File
-				RelativePath="..\..\lib\lSDK\UnicodeSupport.cpp"
+				RelativePath="..\..\lib\lSDK\UnicodeUtilities.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\lSDK\UnicodeSupport.hpp"
+				RelativePath="..\..\include\lSDK\UnicodeUtilities.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="json-parser"
+			>
+			<File
+				RelativePath=".\json.c"
+				>
+			</File>
+			<File
+				RelativePath=".\json.h"
 				>
 			</File>
 		</Filter>

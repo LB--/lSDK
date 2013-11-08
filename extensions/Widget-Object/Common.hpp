@@ -1,14 +1,6 @@
 #ifndef CommonDeclarations_HeaderPlusPlus
 #define CommonDeclarations_HeaderPlusPlus
-
-#define _CRT_SECURE_NO_WARNINGS
-#define	COXSDK
-#define IN_EXT_VERSION2
-#include "ccxhdr.h"
-#define _WINDOWS
-#include "Surface.h"
-#undef _WINDOWS
-#define MMF2Func __stdcall
+#include "lSDK.hpp"
 
 extern HINSTANCE DLL;
 

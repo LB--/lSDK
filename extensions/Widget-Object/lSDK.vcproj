@@ -48,7 +48,7 @@
 				FavorSizeOrSpeed="0"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\include\"
-				PreprocessorDefinitions="DEBUG;RELEASE;EDITTIME"
+				PreprocessorDefinitions="DEBUG;RELEASE;EDITTIME;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				MinimalRebuild="false"
 				ExceptionHandling="1"

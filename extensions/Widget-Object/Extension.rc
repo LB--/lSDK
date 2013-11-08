@@ -1,7 +1,7 @@
 #include "Resources.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
-#include "..\..\Include\ccx.h"
+#include "../../include/MMF2SDK/SDKResources.h"
 #define APSTUDIO_HIDDEN_SYMBOLS
 #include "Windows.h"
 #undef APSTUDIO_HIDDEN_SYMBOLS
@@ -9,12 +9,12 @@
 
 KPX_MAGICNUMBER RCDATA 
 BEGIN
-    0x2516, 0x5908
+	0x2516, 0x5908
 END
 
 STRINGTABLE 
 BEGIN
-    KPX_MARK                "MF2"
+	KPX_MARK "MF2"
 END
 
-EXO_ICON                BITMAP  MOVEABLE PURE   "WidgetIcon.bmp"
+EXO_ICON BITMAP MOVEABLE PURE "WidgetIcon.bmp"

@@ -1,21 +1,65 @@
 #include "Common.hpp"
 
+#include <fstream>
+
 int MMF2Func CreateObject(mv *mV, LO *lo, SerializedED *SED)
 {
 	DM("CreateObject(ppp", "mV", mV, "lo", lo, "SED", SED);
 	MessageBox(mV->mvHEditWin, _T("Use \"Create From File\" in the new object dialog, and select your Widget Definition File."), _T("Widget+"), MB_OK|MB_ICONERROR);
 	return 1;
 }
+struct json_wrapper
+{
+	json_value *json;
+	char error[json_error_max];
+	json_wrapper(std::basic_string<TCHAR> fname)
+	{
+		std::fstream def (lSDK::EnsureNarrow(fname).c_str());
+		std::string str ((std::istreambuf_iterator<char>(def)), std::istreambuf_iterator<char>());
+		json_settings options = {0};
+		json = json_parse_ex(&options, str.c_str(), str.length(), error);
+	}
+	~json_wrapper()
+	{
+		json_value_free(json), json = 0;
+	}
+};
 BOOL MMF2Func UsesFile(mv *mV, LPTSTR Filename)
 {
 	DM("UsesFile(pt", "mV", mV, "Filename", Filename);
 	TCHAR FileExtension[_MAX_EXT];
 	_tsplitpath(Filename, NULL, NULL, NULL, FileExtension);
-	return std::basic_string<TCHAR>(FileExtension) == _T(".wdf") ? TRUE : FALSE;
+	if(std::basic_string<TCHAR>(FileExtension) == _T(".wdf"))
+	{
+		json_wrapper jw (Filename);
+		if(jw.json)
+		{
+			return TRUE;
+		}
+		else
+		{
+			MessageBoxA
+			(
+				mV->mvHEditWin,
+				(std::string("Error while loading \"")+lSDK::EnsureNarrow(Filename)+"\":\r\n"+jw.error).c_str(),
+				"Widget+",
+				MB_OK|MB_ICONERROR
+			);
+			return FALSE;
+		}
+	}
+	return FALSE;
 }
 void MMF2Func CreateFromFile(mv *mV, LPTSTR Filename, SerializedED *SED)
 {
 	DM("CreateFromFile(ptp", "mV", mV, "Filename", Filename, "SED", SED);
+	ED ed;
+	json_wrapper jw (Filename);
+	if(jw.json)
+	{
+		ed.wid = (*jw.json)["ID"];
+	}
+	ed.Serialize(mV, SED);
 }
 void MMF2Func PutObject(mv *mV, LO *lo, SerializedED *SED, unsigned short othersame)
 {

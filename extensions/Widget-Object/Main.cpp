@@ -39,6 +39,7 @@ struct GlobalLifetimeDebug
 	~GlobalLifetimeDebug()
 	{
 		DebugLog("destructing globals(");
+		DebugLog("\n================================================================\n");
 	}
 }gld;
 void DebugLog(char const *func, ...)
@@ -46,25 +47,32 @@ void DebugLog(char const *func, ...)
 	std::basic_ofstream<wchar_t> dbo ("/Widget_Debug.txt", std::ios_base::out|std::ios_base::ate|std::ios_base::app);
 
 	std::string f (func);
-	dbo << lSDK::EnsureWide(f.substr(0, f.find('('))) << L" (DLL = 0x" << (void *)DLL << L")" << std::endl;
-	f = f.substr(f.find('(')+1);
-
-	va_list vars;
-	va_start(vars, func);
-	for(std::string::const_iterator it = f.begin(); it != f.end(); ++it)
+	if(f.find('(') != std::string::npos)
 	{
-		dbo << L'\t' << lSDK::EnsureWide(va_arg(vars, char const *)) << " = ";
-		switch(*it)
+		dbo << lSDK::EnsureWide(f.substr(0, f.find('('))) << L" (DLL = 0x" << (void *)DLL << L")" << std::endl;
+		f = f.substr(f.find('(')+1);
+
+		va_list vars;
+		va_start(vars, func);
+		for(std::string::const_iterator it = f.begin(); it != f.end(); ++it)
 		{
-		case 'p': dbo << L"0x"    <<                  va_arg(vars, void *);                   break;
-		case 'i': dbo <<                              va_arg(vars, int);                      break;
-		case 's': dbo << L'"'     << lSDK::EnsureWide(va_arg(vars, char const *))   << L'"';   break;
-		case 'u': dbo << L"L\""   <<                  va_arg(vars, wchar_t const *) << L'"';   break;
-		case 't': dbo << L"_T(\"" << lSDK::EnsureWide(va_arg(vars, TCHAR const *))  << L"\")"; break;
+			dbo << L'\t' << lSDK::EnsureWide(va_arg(vars, char const *)) << " = ";
+			switch(*it)
+			{
+			case 'p': dbo << L"0x"    <<                  va_arg(vars, void *);                   break;
+			case 'i': dbo <<                              va_arg(vars, int);                      break;
+			case 's': dbo << L'"'     << lSDK::EnsureWide(va_arg(vars, char const *))   << L'"';   break;
+			case 'u': dbo << L"L\""   <<                  va_arg(vars, wchar_t const *) << L'"';   break;
+			case 't': dbo << L"_T(\"" << lSDK::EnsureWide(va_arg(vars, TCHAR const *))  << L"\")"; break;
+			}
+			dbo << std::endl;
 		}
-		dbo << std::endl;
+		va_end(vars);
 	}
-	va_end(vars);
+	else
+	{
+		dbo << lSDK::EnsureWide(f) << std::endl;
+	}
 }
 #endif
 
@@ -78,6 +86,12 @@ int MMF2Func FreeExt(mv *mV)
 {
 	DM("FreeExt(p", "mV", mV);
 	return 0;
+}
+
+void MMF2Func GetSubType(SerializedED *SED, LPTSTR buf/*1024*/, int bufSize/*1024*/)
+{
+	DM("GetSubType(ppi", "SED", SED, "buf", buf, "bufSize", bufSize);
+	strncpy(buf, ED(SED).wid.c_str(), bufSize);
 }
 
 DWORD MMF2Func GetInfos(int Which)
@@ -99,6 +113,7 @@ DWORD MMF2Func GetInfos(int Which)
 			FALSE
 		#endif
 		;
+	case KGI_MULTIPLESUBTYPE: return TRUE;
 	}
 	return 0;
 }
@@ -170,7 +185,7 @@ HGLOBAL MMF2Func UpdateEditStructure(mv *mV, SerializedED *OldSED)
 }
 void MMF2Func UpdateFileNames(mv *mV, LPTSTR AppName, SerializedED *SED, void (__stdcall *Update)(LPTSTR, LPTSTR))
 {
-	DM("UpdateFileNames(ptpp", "mV", mV, "AppName", AppName, "SED", SED, "Update()", Update);
+	DM("UpdateFileNames(ptpp", "mV", mV, "AppName", (AppName? AppName : "<null>"), "SED", SED, "Update()", Update);
 }
 
 int MMF2Func EnumElts(mv *mV, SerializedED *SED, ENUMELTPROC enumProc, ENUMELTPROC undoProc, LPARAM lp1, LPARAM lp2)

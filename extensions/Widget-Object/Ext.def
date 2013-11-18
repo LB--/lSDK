@@ -28,7 +28,7 @@ EXPORTS
 	Free=FreeExt         @26
 ;	ExportTexts          @27
 ;	ImportTexts          @28
-;	GetSubType           @29
+	GetSubType           @29
 	UsesFile             @30
 	CreateFromFile       @31
 	DuplicateObject      @32

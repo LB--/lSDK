@@ -51,7 +51,7 @@ BOOL MMF2Func GetProperties(mv *mV, SerializedED *SED, BOOL MasterItem)
 		mvInsertProps(mV, SED, Prop::about_props,   PROPID_TAB_ABOUT,   FALSE);
 		mvInsertProps(mV, SED, Prop::dev_props,     PROPID_TAB_CUSTOM1, TRUE);
 		if(ed.devmode)
-		mvInsertProps(mV, SED, Prop::json_props,    PROPID_TAB_CUSTOM2, TRUE);
+		mvInsertProps(mV, SED, Prop::json_props,    PROPID_TAB_CUSTOM1, TRUE);
 //		mvInsertProps(mV, SED, Prop::general_props, PROPID_TAB_GENERAL, TRUE);
 	}
 	return TRUE;
@@ -92,7 +92,7 @@ LPVOID MMF2Func GetPropValue(mv *mV, SerializedED *SED, unsigned int PropID)
 		case Prop::About_Version:  return new CPropDataValue(info["Version"]);
 		case Prop::About_Author:   return new CPropDataValue(info["Author"]);
 
-		case Prop::JsonTab_Json:   return new CPropDataValue(ed.json_str.c_str());
+		case Prop::JsonTab_Json:   return new CPropDataValue(EnsureWinNL(ed.Json()).c_str());
 	}
 	return NULL;
 }
@@ -119,7 +119,7 @@ void MMF2Func SetPropValue(mv *mV, SerializedED *SED, unsigned int PropID, CProp
 			json_verifier jv (def);
 			if(jv.json)
 			{
-				ed = ED(json);
+				ed.Json(json);
 			}
 			else
 			{

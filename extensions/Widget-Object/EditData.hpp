@@ -9,11 +9,11 @@ struct SerializedED
 
 struct EditData
 {
-	std::string json_str;
 	json_value *json;
 	bool devmode;
 
 private:
+	std::string json_str;
 	void initJson()
 	{
 		json_settings options = {0};
@@ -41,6 +41,17 @@ public:
 	~EditData()
 	{
 		json_value_free(json), json = 0;
+	}
+
+	void Json(std::string str)
+	{
+		json_str = str;
+		json_value_free(json), json = 0;
+		initJson();
+	}
+	std::string const &Json() const
+	{
+		return json_str;
 	}
 
 #ifndef RUN_ONLY

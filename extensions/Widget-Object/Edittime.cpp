@@ -8,22 +8,6 @@ int MMF2Func CreateObject(mv *mV, LO *lo, SerializedED *SED)
 	MessageBox(mV->mvHEditWin, _T("Use \"Create From File\" in the new object dialog, and select your Widget Definition File."), _T("Widget+"), MB_OK|MB_ICONERROR);
 	return 1;
 }
-struct json_wrapper
-{
-	json_value *json;
-	char error[json_error_max];
-	json_wrapper(std::basic_string<TCHAR> fname)
-	{
-		std::fstream def (lSDK::EnsureNarrow(fname).c_str());
-		std::string str ((std::istreambuf_iterator<char>(def)), std::istreambuf_iterator<char>());
-		json_settings options = {0};
-		json = json_parse_ex(&options, str.c_str(), str.length(), error);
-	}
-	~json_wrapper()
-	{
-		json_value_free(json), json = 0;
-	}
-};
 BOOL MMF2Func UsesFile(mv *mV, LPTSTR Filename)
 {
 	DM("UsesFile(pt", "mV", mV, "Filename", Filename);
@@ -31,8 +15,9 @@ BOOL MMF2Func UsesFile(mv *mV, LPTSTR Filename)
 	_tsplitpath(Filename, NULL, NULL, NULL, FileExtension);
 	if(std::basic_string<TCHAR>(FileExtension) == _T(".wdf"))
 	{
-		json_wrapper jw (Filename);
-		if(jw.json)
+		std::ifstream def (lSDK::EnsureNarrow(Filename).c_str());
+		json_verifier jv (def);
+		if(jv.json)
 		{
 			return TRUE;
 		}
@@ -41,7 +26,7 @@ BOOL MMF2Func UsesFile(mv *mV, LPTSTR Filename)
 			MessageBoxA
 			(
 				mV->mvHEditWin,
-				(std::string("Error while loading \"")+lSDK::EnsureNarrow(Filename)+"\":\r\n"+jw.error).c_str(),
+				(std::string("Error while loading \"")+lSDK::EnsureNarrow(Filename)+"\":\r\n"+jv.error).c_str(),
 				"Widget+",
 				MB_OK|MB_ICONERROR
 			);

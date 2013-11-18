@@ -11,6 +11,7 @@ struct EditData
 {
 	std::string json_str;
 	json_value *json;
+	bool devmode;
 
 private:
 	void initJson()
@@ -21,11 +22,11 @@ private:
 	}
 public:
 
-	EditData(std::string str) : json_str(str)
+	EditData(std::string str) : json_str(str), devmode(false)
 	{
 		initJson();
 	}
-	EditData(EditData const &o) : json_str(o.json_str)
+	EditData(EditData const &o) : json_str(o.json_str), devmode(o.devmode)
 	{
 		initJson();
 	}
@@ -34,6 +35,8 @@ public:
 		json_str = o.json_str;
 		json_value_free(json), json = 0;
 		initJson();
+		devmode = o.devmode;
+		return *this;
 	}
 	~EditData()
 	{
@@ -43,7 +46,7 @@ public:
 #ifndef RUN_ONLY
 	bool Serialize(mv *mV, SerializedED *&SED) const
 	{
-		std::size_t size = json_str.size()+1;
+		std::size_t size = json_str.size()+1 + sizeof(devmode);
 		SerializedED *t = (SerializedED *)mvReAllocEditData(mV, SED, sizeof(SerializedED)+size);
 		if(t)
 		{
@@ -52,12 +55,15 @@ public:
 		else return false;
 		char *p = (char *)(&SED->d);
 		memcpy(p, json_str.c_str(), json_str.size()+1); p += json_str.size()+1;
+		memcpy(p, &devmode, sizeof(devmode));           p += sizeof(devmode);
 		return true;
 	}
 #endif
 	EditData(SerializedED *SED) : json_str(SED->d)
 	{
 		initJson();
+		char *p = (char *)(&SED->d);          p += json_str.size() + 1;
+		memcpy(&devmode, p, sizeof(devmode)); p += sizeof(devmode);
 	}
 };
 typedef EditData ED;

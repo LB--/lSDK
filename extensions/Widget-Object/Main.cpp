@@ -91,7 +91,7 @@ int MMF2Func FreeExt(mv *mV)
 void MMF2Func GetSubType(SerializedED *SED, LPTSTR buf/*1024*/, int bufSize/*1024*/)
 {
 	DM("GetSubType(ppi", "SED", SED, "buf", buf, "bufSize", bufSize);
-	strncpy(buf, ED(SED).wid.c_str(), bufSize);
+	strncpy(buf, (*ED(SED).json)["ID"], bufSize);
 }
 
 DWORD MMF2Func GetInfos(int Which)
@@ -148,7 +148,7 @@ void MMF2Func GetObjInfos(mv *mV, void *, LPTSTR ObjName/*255*/, LPTSTR ObjAutho
 {
 	DM("GetObjInfos(pppppp", "mV", mV, "ObjName", ObjName, "ObjAuthor", ObjAuthor, "ObjCopyright", ObjCopyright, "ObjComment", ObjComment, "ObjHttp", ObjHttp);
 	_tcscpy(ObjName,		_T("Widget+"));
-	_tcscpy(ObjAuthor,		_T("LB"));
+	_tcscpy(ObjAuthor,		_T("Nicholas \"LB\" Braden"));
 	_tcscpy(ObjCopyright,	_T("LB-Stuff.com"));
 	_tcscpy(ObjComment,		_T("Given a Widget Definition File (*.wdf), ")
 							_T("allows you to create your own extension ")

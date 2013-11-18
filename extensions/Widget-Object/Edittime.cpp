@@ -53,13 +53,8 @@ BOOL MMF2Func UsesFile(mv *mV, LPTSTR Filename)
 void MMF2Func CreateFromFile(mv *mV, LPTSTR Filename, SerializedED *SED)
 {
 	DM("CreateFromFile(ptp", "mV", mV, "Filename", Filename, "SED", SED);
-	ED ed;
-	json_wrapper jw (Filename);
-	if(jw.json)
-	{
-		ed.wid = (*jw.json)["ID"];
-	}
-	ed.Serialize(mV, SED);
+	std::fstream def (lSDK::EnsureNarrow(Filename).c_str());
+	ED(std::string((std::istreambuf_iterator<char>(def)), std::istreambuf_iterator<char>())).Serialize(mV, SED);
 }
 void MMF2Func PutObject(mv *mV, LO *lo, SerializedED *SED, unsigned short othersame)
 {

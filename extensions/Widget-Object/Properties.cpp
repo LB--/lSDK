@@ -4,20 +4,30 @@ namespace Prop
 {
 	enum PropID
 	{
-		About_WigitID = PROPID_EXTITEM_CUSTOM_FIRST
+		 zUnused = PROPID_EXTITEM_CUSTOM_FIRST,
+		 About_Header,
+		 About_Name,
+		 About_ID,
+		 About_Version,
+		 About_Author,
+		 About_EndHeader,
 	};
-	ED *info = 0;
 }
 
 BOOL MMF2Func GetProperties(mv *mV, SerializedED *SED, BOOL MasterItem)
 {
 	DM("GetProperties(ppi", "mV", mV, "SED", SED, "MasterItem", MasterItem);
-	if(!Prop::info) Prop::info = new ED(SED);
 	static PropData about_props[] =
 	{
-		PropData_StaticString(Prop::About_WigitID, (UINT_PTR)"Widget ID", (UINT_PTR)"The ID of this widget")
+		PropData_Group           (Prop::About_Header,    (UINT_PTR)"Widget+",           (UINT_PTR)"Information about this Widget"),
+		PropData_StaticString    (Prop::About_Name,      (UINT_PTR)"Widget Name",       (UINT_PTR)"The Name of this widget"),
+		PropData_StaticString_Opt(Prop::About_ID,        (UINT_PTR)"Widget ID",         (UINT_PTR)"The ID of this widget", PROPOPT_BOLD),
+		PropData_StaticString    (Prop::About_Version,   (UINT_PTR)"Widget Version",    (UINT_PTR)"The Version of this widget"),
+		PropData_StaticString    (Prop::About_Author,    (UINT_PTR)"Widget Author",     (UINT_PTR)"The Author of this widget"),
+		PropData_Group           (Prop::About_EndHeader, (UINT_PTR)"Widget+ Extension", (UINT_PTR)"Information about the Widget+ Extension"),
+		PropData_End()
 	};
-	mvInsertProps(mV, SED, about_props, PROPID_TAB_ABOUT, TRUE);
+	mvInsertProps(mV, SED, about_props, PROPID_TAB_ABOUT, FALSE);
 	return TRUE;
 }
 LPARAM MMF2Func GetPropCreateParam(mv *mV, SerializedED *SED, unsigned int PropID)
@@ -32,28 +42,29 @@ void MMF2Func ReleasePropCreateParam(mv *mV, SerializedED *SED, unsigned int Pro
 void MMF2Func ReleaseProperties(mv *mV, SerializedED *SED, BOOL MasterItem)
 {
 	DM("ReleaseProperties(ppi", "mV", mV, "SED", SED, "MasterItem", MasterItem);
-	if(Prop::info) delete Prop::info, Prop::info = 0;
 }
 
 BOOL MMF2Func IsPropEnabled(mv *mV, SerializedED *SED, unsigned int PropID)
 {
 	DM("IsPropEnabled(ppi", "mV", mV, "SED", SED, "PropID", PropID);
+	switch(PropID)
+	{
+	case Prop::About_ID: return FALSE;
+	}
 	return TRUE;
 }
 
 LPVOID MMF2Func GetPropValue(mv *mV, SerializedED *SED, unsigned int PropID)
 {
 	DM("GetPropValue(ppi", "mV", mV, "SED", SED, "PropID", PropID);
-	if(PropID == Prop::About_WigitID)
+	ED ed (SED);
+	json_value &info = *ed.json;
+	switch(PropID)
 	{
-		if(Prop::info)
-		{
-			return new CPropDataValue(Prop::info->wid.c_str());
-		}
-		else
-		{
-			return new CPropDataValue("");
-		}
+	case Prop::About_Name:    return new CPropDataValue(info["Name"]);
+	case Prop::About_ID:      return new CPropDataValue(info["ID"]);
+	case Prop::About_Version: return new CPropDataValue(info["Version"]);
+	case Prop::About_Author:  return new CPropDataValue(info["Author"]);
 	}
 	return NULL;
 }

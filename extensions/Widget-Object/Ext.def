@@ -10,7 +10,7 @@ EXPORTS
 ;	MakeIcon          @10
 	MakeIconEx        @11
 
-;   AppendPopup          @12
+;	AppendPopup          @12
 ;	SelectPopup          @13
 	CreateObject         @14
 ;	ModifyObject         @15

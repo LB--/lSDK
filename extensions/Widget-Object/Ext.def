@@ -1,13 +1,14 @@
 EXPORTS
 	GetInfos          @2
-;	DllCanUnloadNow   @3
-;	DllGetClassObject @4
-;	DllRegisterServer @5
+;	DefaultOI         @3
+;	?                 @4
+;	?                 @5
 	LoadObject        @6
 	UnloadObject      @7
 	PutObject         @8
 	RemoveObject      @9
 ;	MakeIcon          @10
+;	GetDesc           @11
 	MakeIconEx        @11
 
 ;	AppendPopup          @12
@@ -17,6 +18,7 @@ EXPORTS
 ;	RebuildExt           @16
 	GetHelpFileName      @16
 ;	EndModifyObject      @17
+;	GetObjectCursor      @18
 	EditObject           @18
 	GetObjectRect        @19
 	EditorDisplay        @20
@@ -54,15 +56,15 @@ EXPORTS
 ;	actionsTable     @48
 ;	expressionsTable @49
 
-	CreateRunObject   @50
-	DestroyRunObject  @51
-	HandleRunObject   @52
-	DisplayRunObject  @53
-;	?                 @54
-;	?                 @55
-;	ReInitRunObject   @56
-	PauseRunObject    @57
-	ContinueRunObject @58
+	CreateRunObject        @50
+	DestroyRunObject       @51
+	HandleRunObject        @52
+	DisplayRunObject       @53
+;	PrepareToSaveRunObject @54
+;	RestartRunObject       @55
+;	ReInitRunObject        @56
+	PauseRunObject         @57
+	ContinueRunObject      @58
 
 	GetRunObjectInfos         @59
 	GetConditionMenu          @60
@@ -84,9 +86,9 @@ EXPORTS
 	GetActionInfos            @76
 	GetExpressionInfos        @77
 
-	UpdateEditStructure  @78
-;	GetZoneInfo          @79
-	GetRunObjectDataSize @80
+	UpdateEditStructure    @78
+;	GetImageInfosRunObject @79
+	GetRunObjectDataSize   @80
 
 	SaveBackground    @81
 	RestoreBackground @82

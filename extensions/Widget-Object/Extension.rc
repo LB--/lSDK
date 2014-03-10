@@ -1,7 +1,7 @@
 #include "Resources.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
-#include "../../include/MMF2SDK/SDKResources.h"
+#include "../../include/FusionAPI/Ccx.h"
 #define APSTUDIO_HIDDEN_SYMBOLS
 #include "Windows.h"
 #undef APSTUDIO_HIDDEN_SYMBOLS

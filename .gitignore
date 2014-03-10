@@ -1,6 +1,7 @@
 *.exp
 *.mfx
 *.lib
+Debug*/
 
 #################
 ## Eclipse

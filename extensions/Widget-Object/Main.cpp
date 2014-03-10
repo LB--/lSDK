@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <ctime>
+#include <algorithm>
 
 HINSTANCE DLL = 0;
 BOOL WINAPI DllMain(HINSTANCE Dll, DWORD Reason, LPVOID lpReserved)
@@ -59,8 +60,8 @@ void DebugLog(char const *func, ...)
 			dbo << L'\t' << lSDK::EnsureWide(va_arg(vars, char const *)) << " = ";
 			switch(*it)
 			{
-			case 'p': dbo << L"0x"    <<                  va_arg(vars, void *);                   break;
-			case 'i': dbo <<                              va_arg(vars, int);                      break;
+			case 'p': dbo << L"0x"    <<                  va_arg(vars, void *);                    break;
+			case 'i': dbo <<                              va_arg(vars, int);                       break;
 			case 's': dbo << L'"'     << lSDK::EnsureWide(va_arg(vars, char const *))   << L'"';   break;
 			case 'u': dbo << L"L\""   <<                  va_arg(vars, wchar_t const *) << L'"';   break;
 			case 't': dbo << L"_T(\"" << lSDK::EnsureWide(va_arg(vars, TCHAR const *))  << L"\")"; break;
@@ -77,13 +78,17 @@ void DebugLog(char const *func, ...)
 #endif
 
 int MMF2Func InitExt(mv *mV, int Quiet)
-{
+{	DST();
 	DM("InitExt(pi", "mV", mV, "Quiet", Quiet);
-	srand(unsigned(time(0)));
+	TCHAR buffer[_MAX_PATH];
+	if(GetModuleFileName(DLL, buffer, _MAX_PATH))
+	{
+		DM("Current MFX(t", "", buffer);
+	}
 	return 0;
 }
 int MMF2Func FreeExt(mv *mV)
-{
+{	DST();
 	DM("FreeExt(p", "mV", mV);
 	return 0;
 }
@@ -91,7 +96,9 @@ int MMF2Func FreeExt(mv *mV)
 void MMF2Func GetSubType(SerializedED *SED, LPTSTR buf/*1024*/, int bufSize/*1024*/)
 {
 	DM("GetSubType(ppi", "SED", SED, "buf", buf, "bufSize", bufSize);
-	strncpy(buf, (*ED(SED).json)["ID"], bufSize);
+	std::string id = (*ED(SED).json)["ID"];
+	id = id.substr(0, bufSize-1) + '\0';
+	std::copy(id.begin(), id.end(), buf);
 }
 
 DWORD MMF2Func GetInfos(int Which)
@@ -121,7 +128,7 @@ short MMF2Func Action(RD *rd, long param1, long param2);
 long MMF2Func Condition(RD *rd, long param1, long param2);
 long MMF2Func Expression(RD *rd, long param1);
 short MMF2Func GetRunObjectInfos(mv *mV, kpxRunInfos *Info)
-{
+{	DST();
 	DM("GetRunObjectInfos(pp", "mV", mV, "Info", Info);
 
 	Info->identifier = *reinterpret_cast<long const *>("Wig+");
@@ -145,7 +152,7 @@ short MMF2Func GetRunObjectInfos(mv *mV, kpxRunInfos *Info)
 	return TRUE;
 }
 void MMF2Func GetObjInfos(mv *mV, void *, LPTSTR ObjName/*255*/, LPTSTR ObjAuthor/*255*/, LPTSTR ObjCopyright/*255*/, LPTSTR ObjComment/*1024*/, LPTSTR ObjHttp/*255*/)
-{
+{	DST();
 	DM("GetObjInfos(pppppp", "mV", mV, "ObjName", ObjName, "ObjAuthor", ObjAuthor, "ObjCopyright", ObjCopyright, "ObjComment", ObjComment, "ObjHttp", ObjHttp);
 	_tcscpy(ObjName,		_T("Widget+"));
 	_tcscpy(ObjAuthor,		_T("Nicholas \"LB\" Braden"));
@@ -169,27 +176,27 @@ LPCTSTR *MMF2Func GetDependencies()
 }
 
 int MMF2Func LoadObject(mv *mV, LPCSTR Filename, SerializedED *SED, int)
-{
+{	DST();
 	DM("LoadObject(psp", "mV", mV, "Filename", Filename, "SED", SED);
 	return 0;
 }
 void MMF2Func UnloadObject(mv *mV, SerializedED *SED, int)
-{
+{	DST();
 	DM("UnloadObject(pp", "mV", mV, "SED", SED);
 }
 
 HGLOBAL MMF2Func UpdateEditStructure(mv *mV, SerializedED *OldSED)
-{
+{	DST();
 	DM("UpdateEditStructure(pp", "mV", mV, "OldSED", OldSED);
 	return 0;
 }
 void MMF2Func UpdateFileNames(mv *mV, LPTSTR AppName, SerializedED *SED, void (__stdcall *Update)(LPTSTR, LPTSTR))
-{
-	DM("UpdateFileNames(ptpp", "mV", mV, "AppName", (AppName? AppName : "<null>"), "SED", SED, "Update()", Update);
+{	DST();
+	DM("UpdateFileNames(ptpp", "mV", mV, "AppName", (AppName? AppName : _T("<null>")), "SED", SED, "Update()", Update);
 }
 
 int MMF2Func EnumElts(mv *mV, SerializedED *SED, ENUMELTPROC enumProc, ENUMELTPROC undoProc, LPARAM lp1, LPARAM lp2)
-{
+{	DST();
 	DM("EnumElts(ppppii", "mV", mV, "SED", SED, "enumProc()", enumProc, "undoProc()", undoProc, "lp1", lp1, "lp2", lp2);
 	return 0;
 }

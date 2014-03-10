@@ -1,7 +1,7 @@
 #include "Common.hpp"
 
 unsigned short MMF2Func GetRunObjectDataSize(RunHeader *rh, SerializedED *SED)
-{
+{	mv *mV = rh->rh4.rh4Mv; DST();
 	DM("GetRunObjectDataSize(pp", "rh", rh, "SED", SED);
 	return sizeof(RD);
 }
@@ -78,25 +78,25 @@ BOOL MMF2Func LoadRunObject(RD *rd, HANDLE File)
 }
 
 void MMF2Func StartApp(mv *mV, CRunApp *App)
-{
+{	DST();
 	DM("StartApp(pp", "mV", mV, "App", App);
 }
 void MMF2Func EndApp(mv *mV, CRunApp *App)
-{
+{	DST();
 	DM("EndApp(pp", "mV", mV, "App", App);
 }
 
 void MMF2Func StartFrame(mv *mV, CRunApp *App, int FrameIndex)
-{
+{	DST();
 	DM("StartFrame(ppi", "mV", mV, "App", App, "FrameIndex", FrameIndex);
 }
 void MMF2Func EndFrame(mv *mV, CRunApp *App, int FrameIndex)
-{
+{	DST();
 	DM("EndFrame(ppi", "mV", mV, "App", App, "FrameIndex", FrameIndex);
 }
 
 LRESULT CALLBACK WindowProc(RunHeader *rh, HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
-{
+{	mv *mV = rh->rh4.rh4Mv; DST();
 	DM("WindowProc(ppiii", "rh", rh, "Window", Window, "Message", Message, "wParam", wParam, "lParam", lParam);
 	return 0;
 }

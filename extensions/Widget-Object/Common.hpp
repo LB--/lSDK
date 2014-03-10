@@ -9,8 +9,30 @@ extern HINSTANCE DLL;
 #ifdef DEBUG
 void DebugLog(char const *func, ...);
 #define DM(Func, ...) DebugLog(Func, __VA_ARGS__)
+inline void DebugSubType(mv *mV)
+{
+	if(mV)
+	{
+		if(mV->subType)
+		{
+			DM("Sub Type(t", "", mV->subType);
+		}
+		else
+		{
+			DM("Sub Type(p", "", mV->subType);
+		}
+	}
+	else
+	{
+		DM("");
+		DM("mV is nullptr!");
+		DM("");
+	}
+}
+#define DST() DebugSubType(mV)
 #else
-#define DM(NotInDebugMode, ...)
+#define DM(...)
+#define DST()
 #endif
 
 #define ExtensionVersionNumber 0

@@ -5,9 +5,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lSDK", "lSDK.vcproj", "{3E3
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unicode|Win32 = Debug Unicode|Win32
 		Debug|Win32 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E379F4D-6F01-4B87-A04B-FAAF8AB1E503}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{3E379F4D-6F01-4B87-A04B-FAAF8AB1E503}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{3E379F4D-6F01-4B87-A04B-FAAF8AB1E503}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3E379F4D-6F01-4B87-A04B-FAAF8AB1E503}.Debug|Win32.Build.0 = Debug|Win32
 	EndGlobalSection

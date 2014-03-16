@@ -81,10 +81,9 @@ int MMF2Func InitExt(mv *mV, int Quiet)
 {	DST();
 	DM("InitExt(pi", "mV", mV, "Quiet", Quiet);
 	TCHAR buffer[_MAX_PATH];
-	if(GetModuleFileName(DLL, buffer, _MAX_PATH))
-	{
-		DM("Current MFX(t", "", buffer);
-	}
+	buffer[0] = _T('\0');
+	GetModuleFileName(DLL, buffer, _MAX_PATH);
+	DM("#(tii", "MFX", buffer, "HWA", mV->mvCallFunction(0, 112, 0, 0, 0), "Unicode", mV->mvCallFunction(0, 113, 0, 0, 0));
 	return 0;
 }
 int MMF2Func FreeExt(mv *mV)

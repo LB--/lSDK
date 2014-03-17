@@ -15,11 +15,11 @@ inline void DebugSubType(mv *mV)
 	{
 		if(mV->subType)
 		{
-			DM("Sub Type(t", "", mV->subType);
+			DM("#(t", "Sub Type", mV->subType);
 		}
 		else
 		{
-			DM("Sub Type(p", "", mV->subType);
+			DM("#(p", "Sub Type", mV->subType);
 		}
 	}
 	else

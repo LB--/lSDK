@@ -48,7 +48,7 @@
 				FavorSizeOrSpeed="0"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\include\"
-				PreprocessorDefinitions="DEBUG;RELEASE;EDITTIME;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="HWABETA;DEBUG;RELEASE;EDITTIME;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				MinimalRebuild="false"
 				ExceptionHandling="1"
@@ -127,6 +127,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="..\AutoInstall.bat &quot;$(TargetPath)&quot; \Extensions\HWA"
 			/>
 		</Configuration>
 		<Configuration
@@ -135,7 +136,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
-			CharacterSet="2"
+			CharacterSet="1"
 			ManagedExtensions="0"
 			WholeProgramOptimization="0"
 			EnableManagedIncrementalBuild="0"
@@ -241,6 +242,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="..\AutoInstall.bat &quot;$(TargetPath)&quot; \Extensions\Unicode"
 			/>
 		</Configuration>
 	</Configurations>

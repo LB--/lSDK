@@ -83,7 +83,30 @@ int MMF2Func InitExt(mv *mV, int Quiet)
 	TCHAR buffer[_MAX_PATH];
 	buffer[0] = _T('\0');
 	GetModuleFileName(DLL, buffer, _MAX_PATH);
-	DM("#(tii", "MFX", buffer, "HWA", mV->mvCallFunction(0, 112, 0, 0, 0), "Unicode", mV->mvCallFunction(0, 113, 0, 0, 0));
+	DWORD ver = mV->mvGetVersion();
+	char const *vn = "Unknown";
+	switch(ver&MMFVERSION_MASK)
+	{
+		case MMFVERSION_15: vn = "1.5"; break;
+		case MMFVERSION_20: vn = "2.0"; break;
+		case MMFVERSION_25: vn = "2.5"; break;
+	}
+	char const *ve = "Standard";
+	switch(ver&MMFVERFLAG_MASK)
+	{
+		case MMFVERFLAG_HOME:   ve = "Home";      break;
+		case MMFVERFLAG_PRO:    ve = "Developer"; break;
+		case MMFVERFLAG_ATX:    ve = "ATX";       break;
+		case MMFVERFLAG_PLUGIN: ve = "Plugin";    break;
+	}
+	DM("#(tiipsis"
+	, "MFX", buffer
+	, "HWA", mvIsHWAVersion(mV)
+	, "Unicode", mvIsUnicodeVersion(mV)
+	, "Version", ver
+	, "Version #", vn
+	, "Build", ver&MMFBUILD_MASK
+	, "Edition", ve);
 	return 0;
 }
 int MMF2Func FreeExt(mv *mV)

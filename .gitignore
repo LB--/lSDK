@@ -1,3 +1,9 @@
+# Only keep template projects
+/Extensions/*
+!/Extensions/Template*/
+!/Extensions/Widget-Object*/
+!/Extensions/AutoInstall.bat
+
 *.exp
 *.mfx
 *.lib

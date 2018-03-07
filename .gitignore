@@ -4,11 +4,6 @@
 !/Extensions/Widget-Object*/
 !/Extensions/AutoInstall.bat
 
-*.exp
-*.mfx
-*.lib
-Debug*/
-
 #################
 ## Eclipse
 #################

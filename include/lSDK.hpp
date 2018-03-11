@@ -13,12 +13,10 @@ namespace lSDK
 	template<typename CharFrom, typename CharTo>
 	bool fill_buffer(CharTo *const buffer, std::intmax_t const max_len, std::basic_string_view<CharFrom> const &str)
 	{
-		__assume(buffer != nullptr);
 		if(!buffer)
 		{
 			throw std::runtime_error{"Pointer to buffer is null!"};
 		}
-		__assume(max_len > 0);
 		if(max_len > 0)
 		{
 			buffer[0] = TSL('\0');
@@ -54,6 +52,13 @@ namespace lSDK
 	{
 		return fill_buffer<CharFrom, CharTo>(buffer, max_len, static_cast<std::basic_string_view<CharFrom>>(str));
 	}
+
+	enum struct FusionAceType
+	{
+		Action,
+		Condition,
+		Expression
+	};
 }
 
 #endif

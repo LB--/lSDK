@@ -8,14 +8,14 @@
 
 namespace lSDK
 {
-	#define NSL(s) (u8##s)
-	#define WSL(s) (L##s)
+	#define NSL(s) u8##s
+	#define WSL(s) L##s
 #ifdef UNICODE
-	#define TSL(s) (L##s)
+	#define TSL(s) L##s
 	template<typename NarrowType, typename WideType>
 	using unicode_type = WideType;
 #else
-	#define TSL(s) (u8##s)
+	#define TSL(s) u8##s
 	template<typename NarrowType, typename WideType>
 	using unicode_type = NarrowType;
 #endif

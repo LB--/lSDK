@@ -88,13 +88,6 @@ namespace fusion
 	static_assert(sizeof(kpxRunInfos::expressions) == sizeof(expression_func_array));
 }
 
-#ifndef EF_ISHWA
-#define EF_ISHWA 112
-#endif
-#ifndef EF_ISUNICODE
-#define EF_ISUNICODE 113
-#endif
-
 #define FUSION_MENU_ACTIONS_FIRST     25000
 #define FUSION_MENU_ACTIONS_LAST      25999
 #define FUSION_MENU_CONDITIONS_FIRST  26000

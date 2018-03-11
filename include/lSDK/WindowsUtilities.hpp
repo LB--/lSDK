@@ -29,11 +29,17 @@ namespace lSDK
 	-> string_t
 	{
 		TCHAR *buffer = nullptr;
+		SetLastError(ERROR_SUCCESS);
 		auto const length = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, NULL, error, 0, reinterpret_cast<LPTSTR>(&buffer), 0, NULL);
+		DWORD const format_message_error = GetLastError();
 		unique_handle<TCHAR *, HLOCAL, HLOCAL, LocalFree> buffer_freer {buffer};
-		if(length <= 0)
+		if(format_message_error != ERROR_SUCCESS)
 		{
-			return TSL("(error while generating error message for error code ") + string_t_from_numeric(error) + TSL(")");
+			return TSL("(error ") + string_t_from_numeric(format_message_error) + TSL(" while generating error message for error code ") + string_t_from_numeric(error) + TSL(")");
+		}
+		if(length <= 0 || !buffer)
+		{
+			return TSL("(unknown error while generating error message for error code ") + string_t_from_numeric(error) + TSL(")");
 		}
 		return {buffer, static_cast<std::size_t>(length)};
 	}

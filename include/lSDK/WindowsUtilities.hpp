@@ -129,6 +129,16 @@ namespace lSDK
 		}
 		throw std::runtime_error{narrow_from(string_t_from(fail_message)+TSL(": return value was null and GetLastError() returned ERROR_SUCCESS"))};
 	}
+
+	inline auto load_resource(HINSTANCE const instance, TCHAR const *const name, TCHAR const *const type)
+	-> string_view8_t
+	{
+		auto const find_resource_result = call_winapi_notnull(TSL("FindResource() failed"), FindResource, instance, name, type);
+		auto const load_resource_result = call_winapi_notnull(TSL("LoadResource() failed"), LoadResource, instance, find_resource_result);
+		auto const resource_data = call_winapi_notnull(TSL("LockResource() failed"), LockResource, load_resource_result);
+		auto const resource_size = call_winapi_positive(TSL("SizeofResource() failed"), SizeofResource, instance, find_resource_result);
+		return {reinterpret_cast<string_view8_t::const_pointer>(resource_data), static_cast<std::size_t>(resource_size)};
+	}
 }
 
 #define LSDK_CALL_WINAPI_ANY(func, ...)         ::lSDK::call_winapi_any        (TSL(#func) TSL("(") ## #__VA_ARGS__ TSL(") failed"), func, ##__VA_ARGS__)

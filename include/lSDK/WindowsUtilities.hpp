@@ -10,20 +10,89 @@
 
 #include <Windows.h>
 
+#if defined(__cpp_deduction_guides) && defined(__cpp_nontype_template_parameter_auto)
+#define LSDK_SIMPLE_HANDLE_DELETER
+#endif
+
 namespace lSDK
 {
-	template<typename Handle, typename R, typename Arg, R (WINAPI &Func)(Arg)>
+#ifdef LSDK_SIMPLE_HANDLE_DELETER
+	namespace impl
+	{
+		template<typename R, typename Arg>
+		struct GetFunctionArg final
+		{
+			using Arg_t = Arg;
+			GetFunctionArg(R (WINAPI &)(Arg)) noexcept
+			{
+			}
+			GetFunctionArg(R (WINAPI *)(Arg)) noexcept
+			{
+			}
+		};
+	}
+	template<auto Func, typename Handle = typename decltype(impl::GetFunctionArg(Func))::Arg_t, bool ForceCast = false>
 	struct HandleDeleter final
 	{
 		using pointer = Handle;
 
-		void operator()(Handle handle) const noexcept
+		void operator()(pointer p) const noexcept
 		{
-			Func(reinterpret_cast<Arg>(handle));
+			if constexpr(ForceCast)
+			{
+				Func(reinterpret_cast<typename decltype(impl::GetFunctionArg(Func))::Arg_t>(p));
+			}
+			else if constexpr(true)
+			{
+				Func(p);
+			}
 		}
 	};
-	template<typename Handle, typename R, typename Arg, R (WINAPI &Func)(Arg)>
-	using unique_handle = std::unique_ptr<Handle, HandleDeleter<Handle, R, Arg, Func>>;
+	template<auto Func, typename Handle = typename decltype(impl::GetFunctionArg(Func))::Arg_t, bool ForceCast = false>
+	using unique_handle = std::unique_ptr<Handle, HandleDeleter<Func, Handle, ForceCast>>;
+	#define LSDK_UNIQUE_HANDLE(deleter, ...) ::lSDK::unique_handle<deleter, ##__VA_ARGS__>
+#else
+	namespace impl
+	{
+		template<typename Func>
+		struct GetFunctionArg;
+		template<typename R, typename Arg>
+		struct GetFunctionArg<R (WINAPI &)(Arg)> final
+		{
+			using Arg_t = Arg;
+		};
+		template<typename R, typename Arg>
+		struct GetFunctionArg<R (WINAPI *)(Arg)> final
+		{
+			using Arg_t = Arg;
+		};
+		template<typename R, typename Arg>
+		struct GetFunctionArg<R (WINAPI)(Arg)> final
+		{
+			using Arg_t = Arg;
+		};
+	}
+	template<typename FuncT, FuncT Func, typename Handle = typename impl::GetFunctionArg<FuncT>::Arg_t, bool ForceCast = false>
+	struct HandleDeleter final
+	{
+		using pointer = Handle;
+
+		void operator()(pointer p) const noexcept
+		{
+			if constexpr(ForceCast)
+			{
+				Func(reinterpret_cast<typename impl::GetFunctionArg<FuncT>::Arg_t>(p));
+			}
+			else if constexpr(true)
+			{
+				Func(p);
+			}
+		}
+	};
+	template<typename FuncT, FuncT Func, typename Handle = typename impl::GetFunctionArg<FuncT>::Arg_t, bool ForceCast = false>
+	using unique_handle = std::unique_ptr<Handle, HandleDeleter<FuncT, Func, Handle, ForceCast>>;
+	#define LSDK_UNIQUE_HANDLE(deleter, ...) ::lSDK::unique_handle<decltype(deleter), deleter, ##__VA_ARGS__>
+#endif
 
 	inline auto get_windows_error_message(DWORD const error)
 	-> string_t
@@ -32,7 +101,7 @@ namespace lSDK
 		SetLastError(ERROR_SUCCESS);
 		auto const length = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, NULL, error, 0, reinterpret_cast<LPTSTR>(&buffer), 0, NULL);
 		DWORD const format_message_error = GetLastError();
-		unique_handle<TCHAR *, HLOCAL, HLOCAL, LocalFree> buffer_freer {buffer};
+		LSDK_UNIQUE_HANDLE(LocalFree, TCHAR *) buffer_freer {buffer};
 		if(format_message_error != ERROR_SUCCESS)
 		{
 			return TSL("(error ") + string_t_from_numeric(format_message_error) + TSL(" while generating error message for error code ") + string_t_from_numeric(error) + TSL(")");

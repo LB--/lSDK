@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <variant>
 #include <vector>
 
@@ -108,7 +109,7 @@ namespace lSDK
 		};
 		Items_t items;
 
-		using Handle_t = unique_handle<HMENU, BOOL, HMENU, DestroyMenu>;
+		using Handle_t = LSDK_UNIQUE_HANDLE(DestroyMenu);
 		static void append(Handle_t &handle, Items_t const &items)
 		{
 			for(auto const &v : items)
@@ -116,54 +117,56 @@ namespace lSDK
 				MENUITEMINFO info {sizeof(MENUITEMINFO), MIIM_FTYPE|MIIM_ID};
 				Handle_t temp_menu {nullptr};
 				string_t temp_string;
-				if(std::holds_alternative<Separator>(v))
+				std::visit([&](auto const &item)
 				{
-					info.fType = MFT_SEPARATOR;
-					info.wID = first_menu_id();
-				}
-				else if(std::holds_alternative<Item>(v))
-				{
-					auto const &item = std::get<Item>(v);
-					info.fMask |= MIIM_STATE|MIIM_STRING;
-					info.fType = MFT_STRING;
-					if(item.enabled)
+					using Item_t = std::decay_t<decltype(item)>;
+					if constexpr(std::is_same_v<Item_t, Separator>)
 					{
-						info.fState = MFS_ENABLED;
+						info.fType = MFT_SEPARATOR;
+						info.wID = first_menu_id();
 					}
-					else
+					else if constexpr(std::is_same_v<Item_t, Item>)
 					{
-						info.fState = MFS_DISABLED;
+						info.fMask |= MIIM_STATE|MIIM_STRING;
+						info.fType = MFT_STRING;
+						if(item.enabled)
+						{
+							info.fState = MFS_ENABLED;
+						}
+						else
+						{
+							info.fState = MFS_DISABLED;
+						}
+						info.wID = item.data.to_menu_id();
+						temp_string = item.text;
+						info.dwTypeData = temp_string.data();
+						info.cch = temp_string.size();
 					}
-					info.wID = item.data.to_menu_id();
-					temp_string = item.text;
-					info.dwTypeData = temp_string.data();
-					info.cch = temp_string.size();
-				}
-				else if(std::holds_alternative<Submenu>(v))
-				{
-					auto const &submenu = std::get<Submenu>(v);
-					info.fMask |= MIIM_STATE|MIIM_STRING|MIIM_SUBMENU;
-					info.fType = MFT_STRING;
-					if(submenu.enabled)
+					else if constexpr(std::is_same_v<Item_t, Submenu>)
 					{
-						info.fState = MFS_ENABLED;
+						info.fMask |= MIIM_STATE|MIIM_STRING|MIIM_SUBMENU;
+						info.fType = MFT_STRING;
+						if(item.enabled)
+						{
+							info.fState = MFS_ENABLED;
+						}
+						else
+						{
+							info.fState = MFS_DISABLED;
+						}
+						info.wID = first_menu_id();
+						temp_menu.reset(LSDK_CALL_WINAPI_NOTNULL(CreatePopupMenu));
+						append(temp_menu, item.items);
+						info.hSubMenu = temp_menu.get();
+						temp_string = item.name;
+						info.dwTypeData = temp_string.data();
+						info.cch = temp_string.size();
 					}
-					else
+					else if constexpr(true)
 					{
-						info.fState = MFS_DISABLED;
+						static_assert(false);
 					}
-					info.wID = first_menu_id();
-					temp_menu.reset(LSDK_CALL_WINAPI_NOTNULL(CreatePopupMenu));
-					append(temp_menu, submenu.items);
-					info.hSubMenu = temp_menu.get();
-					temp_string = submenu.name;
-					info.dwTypeData = temp_string.data();
-					info.cch = temp_string.size();
-				}
-				else
-				{
-					throw std::runtime_error{"Unknown menu item type"};
-				}
+				}, v);
 				auto const size = LSDK_CALL_WINAPI_NONNEGATIVE(GetMenuItemCount, handle.get());
 				LSDK_CALL_WINAPI_NONZERO(InsertMenuItem, handle.get(), size, TRUE, &info);
 				temp_menu.release();

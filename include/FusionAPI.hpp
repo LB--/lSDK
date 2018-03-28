@@ -46,10 +46,103 @@ static_assert(sizeof(CPropValue *) == 4);
 #define FUSION_API WINAPI
 
 #include <cstdint>
+#include <cstddef>
+#include <type_traits>
 
 namespace fusion
 {
 	extern HINSTANCE DLL;
+
+	namespace
+	{
+		template<typename T, typename MemberT, std::size_t offset, typename = void>
+		struct has_member final
+		: std::false_type
+		{
+		};
+		#define LSDK_HAS_MEMBER(MemberT, Name) \
+		template<typename T, std::size_t offset> \
+		struct has_member<T, MemberT, offset, decltype(T::Name, void())> final \
+		{ \
+			constexpr static bool value = std::is_same<MemberT, decltype(T::Name)>::value && offsetof(T, Name) == offset; \
+		}
+		LSDK_HAS_MEMBER(extHeader, eHeader);
+		LSDK_HAS_MEMBER(headerObject, rHo);
+		LSDK_HAS_MEMBER(rCom, rc);
+		LSDK_HAS_MEMBER(rMvt, rm);
+		LSDK_HAS_MEMBER(rAni, ra);
+		LSDK_HAS_MEMBER(rSpr, rs);
+		LSDK_HAS_MEMBER(rVal, rv);
+		#undef LSDK_HAS_MEMBER
+	}
+	template<typename SerializedEditDataT = SerializedEditData>
+	constexpr bool is_valid_editdata_structure() noexcept
+	{
+		static_assert(std::is_standard_layout_v<SerializedEditDataT>);
+		static_assert(!std::is_default_constructible_v<SerializedEditDataT>);
+		static_assert(!std::is_copy_constructible_v<SerializedEditDataT>);
+		static_assert(!std::is_move_constructible_v<SerializedEditDataT>);
+		static_assert(!std::is_copy_assignable_v<SerializedEditDataT>);
+		static_assert(!std::is_move_assignable_v<SerializedEditDataT>);
+		static_assert(!std::is_destructible_v<SerializedEditDataT>);
+
+		static_assert(has_member<SerializedEditDataT, extHeader, 0>::value, "`extHeader eHeader;` must be the first data member of SerializedEditData");
+
+		return true;
+	}
+	template<decltype(kpxRunInfos::editFlags) Flags, typename RunDataT = RunData>
+	constexpr bool is_valid_rundata_structure() noexcept
+	{
+		static_assert(std::is_standard_layout_v<RunDataT>);
+		static_assert(!std::is_default_constructible_v<RunDataT>);
+		static_assert(!std::is_copy_constructible_v<RunDataT>);
+		static_assert(!std::is_move_constructible_v<RunDataT>);
+		static_assert(!std::is_copy_assignable_v<RunDataT>);
+		static_assert(!std::is_move_assignable_v<RunDataT>);
+		static_assert(!std::is_destructible_v<RunDataT>);
+
+		static_assert(has_member<RunDataT, headerObject, 0>::value, "`headerObject rHo;` must be the first data member of RunData");
+		if constexpr((Flags&OEFLAG_MOVEMENTS) != 0 || (Flags&OEFLAG_ANIMATIONS) != 0 || (Flags&OEFLAG_SPRITES) != 0)
+		{
+			static_assert(has_member<RunDataT, rCom, sizeof(headerObject)>::value, "`rCom rc;` must be immediately after `rHo`");
+		}
+		if constexpr((Flags&OEFLAG_MOVEMENTS) != 0)
+		{
+			static_assert(has_member<RunDataT, rMvt,
+				sizeof(headerObject)+
+				sizeof(rCom)
+			>::value, "`rMvt rm;` must be immediately after `rc`");
+		}
+		if constexpr((Flags&OEFLAG_ANIMATIONS) != 0)
+		{
+			static_assert(has_member<RunDataT, rAni,
+				sizeof(headerObject)+
+				sizeof(rCom)+
+				((Flags&OEFLAG_MOVEMENTS)? sizeof(rMvt) : 0)
+			>::value, "`rAni ra;` must be after `rc` and/or `rm`");
+		}
+		if constexpr((Flags&OEFLAG_SPRITES) != 0)
+		{
+			static_assert(has_member<RunDataT, rSpr,
+				sizeof(headerObject)+
+				sizeof(rCom)+
+				((Flags&OEFLAG_MOVEMENTS)? sizeof(rMvt) : 0)+
+				((Flags&OEFLAG_ANIMATIONS)? sizeof(rAni) : 0)
+			>::value, "`rSpr rs;` must be after `rc`, `rm`, and/or `ra`");
+		}
+		if constexpr((Flags&OEFLAG_VALUES) != 0)
+		{
+			static_assert(has_member<RunDataT, rVal,
+				sizeof(headerObject)+
+				(((Flags&OEFLAG_MOVEMENTS) || (Flags&OEFLAG_ANIMATIONS) || (Flags&OEFLAG_SPRITES))? sizeof(rCom) : 0)+
+				((Flags&OEFLAG_MOVEMENTS)? sizeof(rMvt) : 0)+
+				((Flags&OEFLAG_ANIMATIONS)? sizeof(rAni) : 0)+
+				((Flags&OEFLAG_SPRITES)? sizeof(rSpr) : 0)
+			>::value, "`rVal rv;` must be after `rc`, `rm`, `ra`, and/or `rs`");
+		}
+
+		return true;
+	};
 
 	using string_buffer = TCHAR *;
 	static_assert(sizeof(string_buffer) == 4);
@@ -75,9 +168,9 @@ namespace fusion
 	using ace_info_array = std::int16_t const *;
 	static_assert(sizeof(ace_info_array) == sizeof(LPINFOEVENTSV2));
 
-	using     action_func = std::int16_t FUSION_API (RunData *const rd, std::int32_t const param0, std::int32_t const param1) noexcept;
-	using  condition_func = std::int32_t FUSION_API (RunData *const rd, std::int32_t const param0, std::int32_t const param1) noexcept;
-	using expression_func = std::int32_t FUSION_API (RunData *const rd, std::int32_t const params_handle) noexcept;
+	using     action_func = std::int16_t FUSION_API (RunData *const run_data, std::int32_t const param0, std::int32_t const param1) noexcept;
+	using  condition_func = std::int32_t FUSION_API (RunData *const run_data, std::int32_t const param0, std::int32_t const param1) noexcept;
+	using expression_func = std::int32_t FUSION_API (RunData *const run_data, std::int32_t const params_handle) noexcept;
 
 	using     action_func_array =     action_func **;
 	using  condition_func_array =  condition_func **;

@@ -246,7 +246,7 @@ void FUSION_API EditorDisplay(mv *const mV, OI *const, LO *const, SerializedEdit
 	cSurface *prototype = nullptr;
 	if(!GetSurfacePrototype(&prototype, 32, ST_MEMORY, SD_DIB))
 	{
-		return
+		return;
 	}
 	cSurface icon;
 	icon.Create(32, 32, prototype);
@@ -254,6 +254,7 @@ void FUSION_API EditorDisplay(mv *const mV, OI *const, LO *const, SerializedEdit
 	{
 		return;
 	}
+	icon.SetTransparentColor(icon.GetPixelFast(0, 0));
 	if(!icon.Blit(*frame_window, bounds->left, bounds->top, BMODE_TRANSP, BOP_COPY))
 	{
 		return;
@@ -586,6 +587,7 @@ void FUSION_API ReleaseProperties(mv *const, SerializedEditData *, fusion::boole
 auto FUSION_API IsPropEnabled(pointer, pointer, i32) noexcept
 -> i32
 {
+	return 0;
 }
 #else
 #ifdef FUSION_NO_IS_PROPERTY_ENABLED
@@ -867,12 +869,24 @@ void FUSION_API EndApp(pointer, pointer) noexcept
 void FUSION_API StartFrame(pointer, pointer, i32) noexcept
 {
 }
+#else
+#ifdef FUSION_NO_START_FRAME
+void FUSION_API StartFrame(mv *const, CRunApp *const, std::int32_t const) noexcept
+{
+}
+#endif
 #endif
 
 #ifndef FUSION_END_FRAME
 void FUSION_API EndFrame(pointer, pointer, i32) noexcept
 {
 }
+#else
+#ifdef FUSION_NO_END_FRAME
+void FUSION_API EndFrame(mv *const, CRunApp *const, std::int32_t const) noexcept
+{
+}
+#endif
 #endif
 
 #ifndef FUSION_GET_DEBUG_ITEMS

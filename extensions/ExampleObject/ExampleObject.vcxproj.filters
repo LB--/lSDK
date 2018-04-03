@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FusionAPI">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="lSDK">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="This Extension">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="This Extension\MFX Functions">
+      <UniqueIdentifier>{26cb058c-6496-4d50-9904-831cc0962115}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\FusionAPI\BlitMac.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Ccx.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Ccxhdr.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\CfcError.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\CfcFile.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\CFCMacro.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Cncf.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\cncr.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Cncy.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Cnpdll.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\colors.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\D3dSurfInfo.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\EVTCCX.H">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Fill.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\FilterMgr.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\ImageFlt.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\ImgFlt.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\ImgFltDefs.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Mvt.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Palet.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\PaletCpp.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\PictEdDefs.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Props.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\PTYPE.H">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\SndDefs.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\SoundConverter.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\SoundError.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\SoundFilter.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\SoundFilterMgr.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\StdDefs.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\Surface.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\SurfaceDefs.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\TigsExt.hpp">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI\WinMacro.h">
+      <Filter>FusionAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\FusionAPI.hpp">
+      <Filter>lSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\lSDK.hpp">
+      <Filter>lSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\lSDK\FusionMenu.hpp">
+      <Filter>lSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\lSDK\FusionUtilities.hpp">
+      <Filter>lSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\lSDK\UnicodeUtilities.hpp">
+      <Filter>lSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\lSDK\WindowsUtilities.hpp">
+      <Filter>lSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="EditData.hpp">
+      <Filter>This Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="RunData.hpp">
+      <Filter>This Extension</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>This Extension</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\FusionAPI.cpp">
+      <Filter>lSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lSDK\UnicodeUtilities.cpp">
+      <Filter>lSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="ACEs.cpp">
+      <Filter>This Extension\MFX Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Edittime.cpp">
+      <Filter>This Extension\MFX Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime.cpp">
+      <Filter>This Extension\MFX Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="General.cpp">
+      <Filter>This Extension\MFX Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Menus.cpp">
+      <Filter>This Extension\MFX Functions</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports-edittime.def">
+      <Filter>This Extension</Filter>
+    </None>
+    <None Include="exports-runtime.def">
+      <Filter>This Extension</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Extension.rc">
+      <Filter>This Extension</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

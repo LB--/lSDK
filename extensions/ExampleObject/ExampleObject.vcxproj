@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Edittime|Win32">
+      <Configuration>Edittime</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Runtime|Win32">
+      <Configuration>Runtime</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{20FA0DDC-90E0-46A2-BD2E-EE5B21053329}</ProjectGuid>
+    <RootNamespace>ExampleObject</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.mfx</TargetExt>
+    <ExtensionsToDeleteOnClean>*.mfx;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">
+    <TargetExt>.mfx</TargetExt>
+    <ExtensionsToDeleteOnClean>*.mfx;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'">
+    <TargetExt>.mfx</TargetExt>
+    <ExtensionsToDeleteOnClean>*.mfx;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsManaged>false</CompileAsManaged>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <PreprocessorDefinitions>DEBUG;_DEBUG;HWABETA;FUSION_OEFLAGS=OEFLAG_VALUES|OEFLAG_NEVERKILL|OEFLAG_RUNBEFOREFADEIN;FUSION_NO_DLL_MAIN;FUSION_NO_INITIALIZE;FUSION_NO_FREE;FUSION_NO_GET_DEPENDENCIES;FUSION_NO_LOAD_OBJECT;FUSION_NO_UNLOAD_OBJECT;FUSION_NO_UPDATE_SERIALIZED_EDITDATA;FUSION_NO_UPDATE_FILENAMES;FUSION_NO_ENUMERATE_HANDLES;FUSION_NO_CREATE_OBJECT;FUSION_NO_USES_FILE;FUSION_NO_CREATE_FROM_FILE;FUSION_NO_PUT_OBJECT;FUSION_NO_CLONE_OBJECT;FUSION_NO_REMOVE_OBJECT;FUSION_NO_EDIT_OBJECT;FUSION_NO_GET_OBJECT_BOUNDS;FUSION_NO_MAKE_ICON;FUSION_NO_EDITOR_DISPLAY;FUSION_NO_IS_OBJECT_TRANSPARENT;FUSION_NO_PREPARE_TO_SAVE;FUSION_NO_ON_TICK;FUSION_NO_PAUSE_RUNTIME;FUSION_NO_UNPAUSE_RUNTIME;FUSION_NO_START_APPLICATION;FUSION_NO_END_APPLICATION;FUSION_NO_START_FRAME;FUSION_NO_END_FRAME;WINVER=0x0601;_WIN32_WINNT=0x0601;_WIN32_WINDOWS=0x0601;WIN32;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <CreateHotpatchableImage>true</CreateHotpatchableImage>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mmfs2u.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports-edittime.def</ModuleDefinitionFile>
+      <CreateHotPatchableImage>Enabled</CreateHotPatchableImage>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <OptimizeReferences>false</OptimizeReferences>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Command>..\AutoInstall.bat "$(TargetPath)" \Extensions\Unicode 2&gt; nul</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsManaged>false</CompileAsManaged>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>NDEBUG;HWABETA;FUSION_OEFLAGS=OEFLAG_VALUES|OEFLAG_NEVERKILL|OEFLAG_RUNBEFOREFADEIN;FUSION_NO_DLL_MAIN;FUSION_NO_INITIALIZE;FUSION_NO_FREE;FUSION_NO_GET_DEPENDENCIES;FUSION_NO_LOAD_OBJECT;FUSION_NO_UNLOAD_OBJECT;FUSION_NO_UPDATE_SERIALIZED_EDITDATA;FUSION_NO_UPDATE_FILENAMES;FUSION_NO_ENUMERATE_HANDLES;FUSION_NO_CREATE_OBJECT;FUSION_NO_USES_FILE;FUSION_NO_CREATE_FROM_FILE;FUSION_NO_PUT_OBJECT;FUSION_NO_CLONE_OBJECT;FUSION_NO_REMOVE_OBJECT;FUSION_NO_EDIT_OBJECT;FUSION_NO_GET_OBJECT_BOUNDS;FUSION_NO_MAKE_ICON;FUSION_NO_EDITOR_DISPLAY;FUSION_NO_IS_OBJECT_TRANSPARENT;FUSION_NO_PREPARE_TO_SAVE;FUSION_NO_ON_TICK;FUSION_NO_PAUSE_RUNTIME;FUSION_NO_UNPAUSE_RUNTIME;FUSION_NO_START_APPLICATION;FUSION_NO_END_APPLICATION;FUSION_NO_START_FRAME;FUSION_NO_END_FRAME;WINVER=0x0601;_WIN32_WINNT=0x0601;_WIN32_WINDOWS=0x0601;WIN32;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mmfs2u.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports-edittime.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AssemblyDebug>false</AssemblyDebug>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+    <PostBuildEvent>
+      <Command>..\AutoInstall.bat "$(TargetPath)" \Extensions\Unicode 2&gt; nul</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAsManaged>false</CompileAsManaged>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>NDEBUG;HWABETA;FUSION_RUNTIME_ONLY;FUSION_OEFLAGS=OEFLAG_VALUES|OEFLAG_NEVERKILL|OEFLAG_RUNBEFOREFADEIN;FUSION_NO_DLL_MAIN;FUSION_NO_INITIALIZE;FUSION_NO_FREE;FUSION_NO_GET_DEPENDENCIES;FUSION_NO_LOAD_OBJECT;FUSION_NO_UNLOAD_OBJECT;FUSION_NO_UPDATE_SERIALIZED_EDITDATA;FUSION_NO_UPDATE_FILENAMES;FUSION_NO_ENUMERATE_HANDLES;FUSION_NO_CREATE_OBJECT;FUSION_NO_USES_FILE;FUSION_NO_CREATE_FROM_FILE;FUSION_NO_PUT_OBJECT;FUSION_NO_CLONE_OBJECT;FUSION_NO_REMOVE_OBJECT;FUSION_NO_EDIT_OBJECT;FUSION_NO_GET_OBJECT_BOUNDS;FUSION_NO_MAKE_ICON;FUSION_NO_EDITOR_DISPLAY;FUSION_NO_IS_OBJECT_TRANSPARENT;FUSION_NO_PREPARE_TO_SAVE;FUSION_NO_ON_TICK;FUSION_NO_PAUSE_RUNTIME;FUSION_NO_UNPAUSE_RUNTIME;FUSION_NO_START_APPLICATION;FUSION_NO_END_APPLICATION;FUSION_NO_START_FRAME;FUSION_NO_END_FRAME;WINVER=0x0601;_WIN32_WINNT=0x0601;_WIN32_WINDOWS=0x0601;WIN32;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mmfs2u.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>exports-runtime.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AssemblyDebug>false</AssemblyDebug>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+    <PostBuildEvent>
+      <Command>..\AutoInstall.bat "$(TargetPath)" \Data\Runtime\Unicode 2&gt; nul</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\FusionAPI.hpp" />
+    <ClInclude Include="..\..\include\FusionAPI\BlitMac.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Ccx.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Ccxhdr.h" />
+    <ClInclude Include="..\..\include\FusionAPI\CfcError.h" />
+    <ClInclude Include="..\..\include\FusionAPI\CfcFile.h" />
+    <ClInclude Include="..\..\include\FusionAPI\CFCMacro.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Cncf.h" />
+    <ClInclude Include="..\..\include\FusionAPI\cncr.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Cncy.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Cnpdll.h" />
+    <ClInclude Include="..\..\include\FusionAPI\colors.h" />
+    <ClInclude Include="..\..\include\FusionAPI\D3dSurfInfo.h" />
+    <ClInclude Include="..\..\include\FusionAPI\EVTCCX.H" />
+    <ClInclude Include="..\..\include\FusionAPI\Fill.h" />
+    <ClInclude Include="..\..\include\FusionAPI\FilterMgr.h" />
+    <ClInclude Include="..\..\include\FusionAPI\ImageFlt.h" />
+    <ClInclude Include="..\..\include\FusionAPI\ImgFlt.h" />
+    <ClInclude Include="..\..\include\FusionAPI\ImgFltDefs.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Mvt.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Palet.h" />
+    <ClInclude Include="..\..\include\FusionAPI\PaletCpp.h" />
+    <ClInclude Include="..\..\include\FusionAPI\PictEdDefs.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Props.h" />
+    <ClInclude Include="..\..\include\FusionAPI\PTYPE.H" />
+    <ClInclude Include="..\..\include\FusionAPI\SndDefs.h" />
+    <ClInclude Include="..\..\include\FusionAPI\SoundConverter.h" />
+    <ClInclude Include="..\..\include\FusionAPI\SoundError.h" />
+    <ClInclude Include="..\..\include\FusionAPI\SoundFilter.h" />
+    <ClInclude Include="..\..\include\FusionAPI\SoundFilterMgr.h" />
+    <ClInclude Include="..\..\include\FusionAPI\StdDefs.h" />
+    <ClInclude Include="..\..\include\FusionAPI\Surface.h" />
+    <ClInclude Include="..\..\include\FusionAPI\SurfaceDefs.h" />
+    <ClInclude Include="..\..\include\FusionAPI\TigsExt.hpp" />
+    <ClInclude Include="..\..\include\FusionAPI\WinMacro.h" />
+    <ClInclude Include="..\..\include\lSDK.hpp" />
+    <ClInclude Include="..\..\include\lSDK\FusionMenu.hpp" />
+    <ClInclude Include="..\..\include\lSDK\FusionUtilities.hpp" />
+    <ClInclude Include="..\..\include\lSDK\UnicodeUtilities.hpp" />
+    <ClInclude Include="..\..\include\lSDK\WindowsUtilities.hpp" />
+    <ClInclude Include="EditData.hpp" />
+    <ClInclude Include="Resources.h" />
+    <ClInclude Include="RunData.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\FusionAPI.cpp" />
+    <ClCompile Include="..\..\src\lSDK\UnicodeUtilities.cpp" />
+    <ClCompile Include="ACEs.cpp" />
+    <ClCompile Include="Edittime.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="General.cpp" />
+    <ClCompile Include="Menus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Runtime.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports-edittime.def">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="exports-runtime.def">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Edittime|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Runtime|Win32'">false</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Extension.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

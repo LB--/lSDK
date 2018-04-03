@@ -31,7 +31,24 @@ static_assert(sizeof(HANDLE) == 4);
 #define	COXSDK
 #define IN_EXT_VERSION2
 #define _WINDOWS
-#include "FusionAPI/Ccxhdr.h"
+//#include "FusionAPI/Ccxhdr.h" //can't include because it defines IN_KPX
+#include <stdio.h>
+#include <tchar.h>
+#define STDDLL_IMPORTS
+#define IMGFLTMGR_IMPORTS
+#define SNDMGR_IMPORTS
+#define SURFACES_IMPORTS
+#define ZCOMPDLL_IMPORTS
+#define	RUN_TIME
+#include "FusionAPI/PTYPE.H"
+#include "FusionAPI/WinMacro.h"
+#include "FusionAPI/colors.h"
+#include "FusionAPI/Cnpdll.h"
+#include "FusionAPI/cncr.h"
+#include "FusionAPI/EVTCCX.H"
+#include "FusionAPI/Props.h"
+#include "FusionAPI/Ccx.h"
+
 #include "FusionAPI/CfcFile.h"
 #include "FusionAPI/ImageFlt.h"
 #include "FusionAPI/ImgFlt.h"
@@ -172,9 +189,17 @@ namespace fusion
 	using  condition_func = std::int32_t FUSION_API (RunData *const run_data, std::int32_t const param0, std::int32_t const param1) noexcept;
 	using expression_func = std::int32_t FUSION_API (RunData *const run_data, std::int32_t const params_handle) noexcept;
 
-	using     action_func_array =     action_func **;
-	using  condition_func_array =  condition_func **;
-	using expression_func_array = expression_func **;
+	using     action_func_pointer =     action_func *;
+	using  condition_func_pointer =  condition_func *;
+	using expression_func_pointer = expression_func *;
+
+	static_assert(sizeof(    action_func_pointer) == 4);
+	static_assert(sizeof( condition_func_pointer) == 4);
+	static_assert(sizeof(expression_func_pointer) == 4);
+
+	using     action_func_array =     action_func_pointer *;
+	using  condition_func_array =  condition_func_pointer *;
+	using expression_func_array = expression_func_pointer *;
 
 	static_assert(sizeof(kpxRunInfos::    actions) == sizeof(    action_func_array));
 	static_assert(sizeof(kpxRunInfos:: conditions) == sizeof( condition_func_array));
@@ -313,13 +338,8 @@ std::int32_t FUSION_API MakeIconEx(mv *const mV, cSurface *const icon, fusion::s
 
 #endif
 
-
-#ifdef FUSION_CUSTOM_EDITOR_DISPLAY
-
 #define FUSION_EDITOR_DISPLAY
 void FUSION_API EditorDisplay(mv *const mV, OI *const object_info, LO *const level_object, SerializedEditData *serialized_edit_data, RECT *const bounds) noexcept;
-
-#endif
 
 #define FUSION_IS_OBJECT_TRANSPARENT
 #define FUSION_IS_OBJECT_TRANSPARENT_OPAQUE FALSE
@@ -624,7 +644,11 @@ void FUSION_API EditDebugItem(RunData *const run_data, std::int32_t const id) no
 #endif
 
 #define FUSION_ACTIONS
+
 #define FUSION_CONDITIONS
+#define FUSION_CONDITIONS_FALSE 0
+#define FUSION_CONDITIONS_TRUE 1
+
 #define FUSION_EXPRESSIONS
 
 #endif

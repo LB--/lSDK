@@ -221,7 +221,7 @@ BOOL WINAPI DllMain(HINSTANCE dll, DWORD reason, LPVOID reserved) noexcept;
 #define FUSION_INITIALIZE
 #define FUSION_INITIALIZE_FAILURE -1
 #define FUSION_INITIALIZE_SUCCESS 0
-std::int32_t FUSION_API InitExt(mv *const mV, std::int32_t const quiet) noexcept;
+std::int32_t FUSION_API InitExt(mv *const mV, fusion::boolean const quiet) noexcept;
 
 #define FUSION_FREE
 #define FUSION_FREE_SUCCESS 0
@@ -237,7 +237,7 @@ std::uint32_t FUSION_API GetInfos(std::int32_t const which) noexcept;
 
 #define FUSION_GET_SUBTYPE
 #define FUSION_GET_COMPATIBILITY_MULTIPLE_SUBTYPES TRUE
-void FUSION_API GetSubType(SerializedEditData *serialized_edit_data, fusion::string_buffer const subtype_buffer, std::int32_t const subtype_buffer_size) noexcept;
+void FUSION_API GetSubType(SerializedEditData const *const serialized_edit_data, fusion::string_buffer const subtype_buffer, std::int32_t const subtype_buffer_size) noexcept;
 
 #else
 

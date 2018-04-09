@@ -19,7 +19,7 @@ BOOL WINAPI DllMain(HINSTANCE dll, DWORD reason, LPVOID reserved) noexcept
 #endif
 
 #ifdef FUSION_NO_INITIALIZE
-auto FUSION_API InitExt(mv *const, std::int32_t const) noexcept
+auto FUSION_API InitExt(mv *const, fusion::boolean const) noexcept
 -> std::int32_t
 {
 	return FUSION_INITIALIZE_SUCCESS;

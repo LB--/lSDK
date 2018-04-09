@@ -1,4 +1,6 @@
-Fusion loads exports from the MFX by name, so ordinals are not required. They are documented here for historical reasons and research purposes. Some items in the list are exported global variables, but all such instances are deprecated.
+Fusion loads exports from the MFX by name, so ordinals are not required.
+They are documented here for historical reasons and research purposes.
+Some items in the list are exported global variables, but all such instances are deprecated.
 
 | Ordinal | Name |
 | --- | --- |

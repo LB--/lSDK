@@ -3,7 +3,7 @@ Most `FUSION_API` functions are optional - Fusion will use default behavior if t
 The following functions are the minimum required for Edittime builds:
 * `GetInfos` - without this, Fusion will not load the extension
 * `EditorDisplay` - without this, the extension will not have an icon in the frame editor
-* `GetObjInfos` - without this, the extension will show without any name in the Insert Object dialog
+* `GetObjInfos` - without this, you must provide a name with `KPX_NAME` after `KPX_MARK` in the resource file, otherwise the extension will show without any name in the Insert Object dialog
 * `CreateRunObject` - without this, Fusion will never create the object at runtime
 * `DestroyRunObject` - technically you can go without this, but you really shouldn't
 * `HandleRunObject` - without this, the runtime will crash immediately by trying to invoke a null function pointer

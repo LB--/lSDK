@@ -12,8 +12,8 @@ EXPORTS
 	ContinueRunObject
 
 	; edittime only
-	GetObjInfos
-	EditorDisplay
+;	GetObjInfos
+;	GetHelpFileName
 
 	; action menu
 	GetActionMenu

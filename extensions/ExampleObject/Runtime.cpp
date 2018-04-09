@@ -24,6 +24,14 @@ auto FUSION_API DestroyRunObject(RunData *const run_data, std::int32_t const fas
 }
 #endif
 
+#ifdef FUSION_ON_TICK
+auto FUSION_API HandleRunObject(RunData *const run_data) noexcept
+-> std::int16_t
+{
+	return FUSION_ON_TICK_STOP_CALLING;
+}
+#endif
+
 #ifdef FUSION_SERIALIZE_RUNTIME
 auto FUSION_API SaveRunObject(RunData *const run_data, HANDLE const file_handle) noexcept
 -> fusion::boolean
@@ -36,5 +44,20 @@ auto FUSION_API LoadRunObject(RunData *const run_data, HANDLE const file_handle)
 -> fusion::boolean
 {
 	return FUSION_DESERIALIZE_RUNTIME_SUCCESS;
+}
+#endif
+
+#ifdef FUSION_PAUSE_RUNTIME
+auto FUSION_API PauseRunObject(RunData *const run_data) noexcept
+-> std::int16_t
+{
+	return FUSION_PAUSE_RUNTIME_SUCCESS;
+}
+#endif
+#ifdef FUSION_UNPAUSE_RUNTIME
+auto FUSION_API ContinueRunObject(RunData *const run_data) noexcept
+-> std::int16_t
+{
+	return FUSION_UNPAUSE_RUNTIME_SUCCESS;
 }
 #endif

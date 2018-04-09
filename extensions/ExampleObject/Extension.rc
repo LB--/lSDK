@@ -15,10 +15,12 @@ END
 STRINGTABLE 
 BEGIN
 	KPX_MARK "MF2"
+	KPX_NAME "lSDK Example Extension"
 END
 
 #ifndef FUSION_RUNTIME_ONLY
 
 EXO_ICON BITMAP "Icon.bmp"
+EXO_IMAGE BITMAP "Icon.bmp"
 
 #endif

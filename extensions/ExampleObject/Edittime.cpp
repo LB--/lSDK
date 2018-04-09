@@ -1,6 +1,9 @@
 #include "FusionAPI.hpp"
 #include "lSDK.hpp"
 
+//Initially, these two functions are commented out in exports-edittime.def
+//Be sure to uncomment them!
+
 #ifdef FUSION_GET_EXTENSION_METADATA
 void FUSION_API GetObjInfos(mv *const mV, SerializedEditData *serialized_edit_data,
 	fusion::string_buffer const extension_name_buffer/*255*/,
@@ -10,7 +13,7 @@ void FUSION_API GetObjInfos(mv *const mV, SerializedEditData *serialized_edit_da
 	fusion::string_buffer const extension_website_buffer/*255*/
 ) noexcept
 {
-	lSDK::fill_buffer(extension_name_buffer       , 255 , TSL("lSDK Example Extension"));
+	lSDK::fill_buffer(extension_name_buffer       , 255 , TSL("Example Extension"));
 	lSDK::fill_buffer(extension_author_buffer     , 255 , TSL("Nicholas Braden"));
 	lSDK::fill_buffer(extension_copyright_buffer  , 255 , TSL("2018 Nicholas Braden"));
 	lSDK::fill_buffer(extension_description_buffer, 1024, TSL("An example extension for extension developers."));

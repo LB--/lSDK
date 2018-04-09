@@ -317,26 +317,18 @@ void FUSION_API RemoveObject(mv *const mV, LO *const level_object, SerializedEdi
 #define FUSION_EDIT_OBJECT_CHANGES_MADE 1
 std::int32_t FUSION_API EditObject(mv *const mV, OI *const object_info, LO *const level_object, SerializedEditData *serialized_edit_data) noexcept;
 
-#ifdef FUSION_RESIZABLE_OBJECT
-
 #define FUSION_SET_EDIT_SIZE
 #define FUSION_SET_EDIT_SIZE_NOT_CHANGED 0
 #define FUSION_SET_EDIT_SIZE_CHANGED 1
-std::int32_t auto FUSION_API SetEditSize(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const width, std::int32_t const height) noexcept;
-
-#endif
+std::int32_t FUSION_API SetEditSize(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const width, std::int32_t const height) noexcept;
 
 #define FUSION_GET_OBJECT_BOUNDS
 void FUSION_API GetObjectRect(mv *const mV, RECT *const rect, LO *const level_object, SerializedEditData *serialized_edit_data) noexcept;
-
-#ifdef FUSION_CUSTOM_ICON
 
 #define FUSION_MAKE_ICON
 #define FUSION_MAKE_ICON_FAILURE 1
 #define FUSION_MAKE_ICON_SUCCESS 0
 std::int32_t FUSION_API MakeIconEx(mv *const mV, cSurface *const icon, fusion::string_buffer const name, OI *const object_info, SerializedEditData *serialized_edit_data) noexcept;
-
-#endif
 
 #define FUSION_EDITOR_DISPLAY
 void FUSION_API EditorDisplay(mv *const mV, OI *const object_info, LO *const level_object, SerializedEditData *serialized_edit_data, RECT *const bounds) noexcept;
@@ -349,17 +341,13 @@ fusion::boolean FUSION_API IsObjTransparent(mv *const mV, OI *const level_object
 #define FUSION_PREPARE_TO_SAVE
 void FUSION_API PrepareToWriteObject(mv *const mV, SerializedEditData *const serialized_edit_data, OI *const object_info) noexcept; //serialized_edit_data is a temporary copy that can't be resized
 
-#ifdef FUSION_CUSTOM_FILTERS
 #define FUSION_GET_FILTERS
 #define FUSION_GET_FILTERS_NOT_SUPPORTED FALSE
 #define FUSION_GET_FILTERS_SUPPORTED TRUE
 fusion::boolean FUSION_API GetFilters(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t flags, void const *const) noexcept;
-#endif
 
-#ifdef FUSION_CUSTOM_FLEX_BUILD
 #define FUSION_PREPARE_FLEX_BUILD
 void FUSION_API PrepareFlexBuild(mv *const mV, SerializedEditData *serialized_edit_data, fusion::wstring_view const temp_folder) noexcept;
-#endif
 
 #define FUSION_GET_ACTION_MENU
 #define FUSION_GET_ACTION_MENU_NONE NULL
@@ -409,8 +397,6 @@ void FUSION_API GetConditionString(mv *const mV, std::int16_t const condition_id
 #define FUSION_GET_EXPRESSION_EDITOR_STRING
 void FUSION_API GetExpressionString(mv *const mV, std::int16_t const expression_id, fusion::string_buffer const editor_string_buffer, std::int16_t const editor_string_buffer_size) noexcept;
 
-#ifdef FUSION_CUSTOM_PARAMETERS
-
 #define FUSION_INITIALIZE_CUSTOM_PARAMETER
 void FUSION_API InitParameter(mv *const mV, std::int16_t const custom_id, paramExt *const param_data) noexcept;
 
@@ -420,14 +406,8 @@ void FUSION_API EditParameter(mv *const mV, std::int16_t const custom_id, paramE
 #define FUSION_GET_CUSTOM_PARAMETER_DISPLAY_STRING
 void FUSION_API GetParameterString(mv *const mV, std::int16_t const custom_id, paramExt *const param_data, fusion::string_buffer const display_string_buffer, std::int16_t const display_string_buffer_size) noexcept;
 
-#endif
-
-#ifdef FUSION_DRAWS_TEXT
-
 #define FUSION_GET_TEXT_CAPABILITIES
 std::uint32_t FUSION_API GetTextCaps(mv *const mV, SerializedEditData *serialized_edit_data) noexcept;
-
-#ifdef FUSION_DRAWS_TEXT_USER_FONT
 
 #define FUSION_GET_TEXT_FONT
 fusion::boolean FUSION_API GetTextFont(mv *const mV, SerializedEditData *serialized_edit_data, LOGFONT *const font, void const *const, std::uint32_t const) noexcept;
@@ -435,31 +415,17 @@ fusion::boolean FUSION_API GetTextFont(mv *const mV, SerializedEditData *seriali
 #define FUSION_SET_TEXT_FONT
 fusion::boolean FUSION_API SetTextFont(mv *const mV, SerializedEditData *serialized_edit_data, LOGFONT const *const font, void const *const) noexcept;
 
-#endif
-
-#ifdef FUSION_DRAWS_TEXT_USER_COLOR
-
 #define FUSION_GET_TEXT_COLOR
 COLORREF FUSION_API GetTextClr(mv *const mV, SerializedEditData *serialized_edit_data) noexcept;
 
 #define FUSION_SET_TEXT_COLOR
 void FUSION_API SetTextClr(mv *const mV, SerializedEditData *serialized_edit_data, COLORREF const color) noexcept;
 
-#endif
-
-#ifdef FUSION_DRAWS_TEXT_USER_ALIGNMENT
-
 #define FUSION_GET_TEXT_ALIGNMENT
 std::uint32_t FUSION_API GetTextAlignment(mv *const mV, SerializedEditData *serialized_edit_data) noexcept;
 
 #define FUSION_SET_TEXT_ALIGNMENT
 void FUSION_API SetTextAlignment(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const flags) noexcept;
-
-#endif
-
-#endif
-
-#ifdef FUSION_CUSTOM_PROPERTIES
 
 #define FUSION_GET_PROPERTIES
 #define FUSION_GET_PROPERTIES_FAILURE FALSE
@@ -500,8 +466,6 @@ void FUSION_API SetPropCheck(mv *const mV, SerializedEditData *serialized_edit_d
 #define FUSION_PROPERTY_BUTTON_PRESSED_NO_REFRESH FALSE
 #define FUSION_PROPERTY_BUTTON_PRESSED_DO_REFRESH TRUE
 fusion::boolean FUSION_API EditProp(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id) noexcept;
-
-#endif
 
 #endif
 

@@ -5,6 +5,7 @@ auto FUSION_API GetRunObjectInfos(mv *const mV, kpxRunInfos *const run_info) noe
 -> std::int16_t
 ```
 You must fill in all the data members of `run_info` with appropriate values.
+
 | `kpxRunInfos` member | Value to store |
 | --- | --- |
 | `identifier` | This must be a value that is unique to your extension and not the same as any other extension. It must never change over the course of your extension's existence. |
@@ -15,6 +16,7 @@ You must fill in all the data members of `run_info` with appropriate values.
 | `editPrefs` | A combination of `OEPREFS_*` flags. This influences which default properties are shown in the properties pane. |
 | `numOfActions`<br>`numOfConditions`<br>`numOfExpressions` | The number of actions/conditions/expressions, which may be dynamic. If you don't yet know, you can store `0` and Fusion will ask again later. |
 | `actions`<br>`conditions`<br>`expressions` | You must store a `fusion::*ion_func_array` where the size of the array is exactly the same as `numOf*ions` and each value in the array is a function pointer representing the action/condition/expression function. If the number of ACEs is dynamic, you will typically have all function pointers in the array point to the same function and then perform the dispatch within the function itself. If you don't yet know how many ACEs there are, you can store `nullptr` and Fusion will ask again later. You are responsible for managing the memory of the array - it must remain valid until Fusion unloads your extension or until the next call to this function (in which case you can generate a new array). |
+
 If there is an error, return `FUSION_GET_EXTENSION_INFO_FAILURE`.
 Otherwise, return `FUSION_GET_EXTENSION_INFO_SUCCESS`.
 

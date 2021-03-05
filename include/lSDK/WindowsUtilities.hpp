@@ -208,6 +208,13 @@ namespace lSDK
 		auto const resource_size = call_winapi_positive(TSL("SizeofResource() failed"), SizeofResource, instance, find_resource_result);
 		return {reinterpret_cast<string_view8_t::const_pointer>(resource_data), static_cast<std::size_t>(resource_size)};
 	}
+	inline auto get_resource_string(::UINT id)
+	-> lSDK::string_view_t
+	{
+		lSDK::char_t const *ptr {};
+		auto const ret = call_winapi_positive(TSL("LoadString() failed"), ::LoadString, fusion::DLL, id, reinterpret_cast<::LPTSTR>(&ptr), 0);
+		return lSDK::string_view_t(ptr, static_cast<std::size_t>(ret));
+	}
 }
 
 #define LSDK_CALL_WINAPI_ANY(func, ...)         ::lSDK::call_winapi_any        (TSL(#func) TSL("(") ## #__VA_ARGS__ TSL(") failed"), func, ##__VA_ARGS__)

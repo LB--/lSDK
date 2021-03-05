@@ -3,8 +3,10 @@
 
 #include <cstdint>
 #include <memory>
+#include <span>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <variant>
 #include <vector>
@@ -92,10 +94,11 @@ namespace lSDK
 		struct Separator final
 		{
 		};
+		using MenuText_v = std::variant<string_t, char_t const *, ::UINT /*resource ID*/>;
 		struct Item final
 		{
 			ExtensionData data;
-			string_t text;
+			MenuText_v text;
 			bool enabled = true;
 		};
 		struct Submenu;
@@ -103,20 +106,38 @@ namespace lSDK
 		using Items_t = std::vector<variant>;
 		struct Submenu final
 		{
-			string_t name;
+			MenuText_v name;
 			Items_t items;
 			bool enabled = true;
 		};
 		Items_t items;
 
+		struct MenuTextConverter final
+		{
+			MENUITEMINFO &info;
+			string_t &temp_string;
+			void operator()(string_t const &s) const noexcept
+			{
+				info.dwTypeData = const_cast<::LPWSTR>(s.data());
+			}
+			void operator()(char_t const *s) const noexcept
+			{
+				info.dwTypeData = const_cast<::LPWSTR>(s);
+			}
+			void operator()(::UINT const resource_id) const
+			{
+				temp_string.assign(get_resource_string(resource_id));
+				info.dwTypeData = temp_string.data();
+			}
+		};
 		using Handle_t = LSDK_UNIQUE_HANDLE(DestroyMenu);
 		static void append(Handle_t &handle, Items_t const &items)
 		{
+			string_t temp_string;
 			for(auto const &v : items)
 			{
 				MENUITEMINFO info {sizeof(MENUITEMINFO), MIIM_FTYPE|MIIM_ID};
 				Handle_t temp_menu {nullptr};
-				string_t temp_string;
 				std::visit([&](auto const &item)
 				{
 					using Item_t = std::decay_t<decltype(item)>;
@@ -138,9 +159,7 @@ namespace lSDK
 							info.fState = MFS_DISABLED;
 						}
 						info.wID = item.data.to_menu_id();
-						temp_string = item.text;
-						info.dwTypeData = temp_string.data();
-						info.cch = temp_string.size();
+						visit(MenuTextConverter{info, temp_string}, item.text);
 					}
 					else if constexpr(std::is_same_v<Item_t, Submenu>)
 					{
@@ -158,9 +177,7 @@ namespace lSDK
 						temp_menu.reset(LSDK_CALL_WINAPI_NOTNULL(CreatePopupMenu));
 						append(temp_menu, item.items);
 						info.hSubMenu = temp_menu.get();
-						temp_string = item.name;
-						info.dwTypeData = temp_string.data();
-						info.cch = temp_string.size();
+						visit(MenuTextConverter{info, temp_string}, item.name);
 					}
 					else if constexpr(true)
 					{

@@ -48,6 +48,7 @@ namespace lSDK
 		return func(&header_object, wparam, lparam);
 	}
 
+	#ifdef LSDK_PARAMS_HELPER
 	namespace
 	{
 		template<std::size_t NumParams>
@@ -270,6 +271,7 @@ namespace lSDK
 			}
 		}
 	};
+	#endif //LSDK_PARAMS_HELPER
 
 	template<typename T>
 	void trigger_condition(headerObject &header_object, std::int16_t const condition_id, T &param)

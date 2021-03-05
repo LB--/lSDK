@@ -1,6 +1,7 @@
 #include "lSDK/UnicodeUtilities.hpp"
 
 #include <memory>
+#include <stdexcept>
 
 #include <Windows.h>
 

@@ -185,9 +185,14 @@ namespace fusion
 	using ace_info_array = std::int16_t const *;
 	static_assert(sizeof(ace_info_array) == sizeof(LPINFOEVENTSV2));
 
-	using     action_func = std::int16_t FUSION_API (RunData *const run_data, std::int32_t const param0, std::int32_t const param1) noexcept;
-	using  condition_func = std::int32_t FUSION_API (RunData *const run_data, std::int32_t const param0, std::int32_t const param1) noexcept;
-	using expression_func = std::int32_t FUSION_API (RunData *const run_data, std::int32_t const params_handle) noexcept;
+	using     action_return_t = std::int16_t;
+	using  condition_return_t = std::int32_t;
+	using expression_return_t = std::int32_t;
+	using ac_param_t = std::int32_t;
+	using e_params_t = std::int32_t;
+	using     action_func =     action_return_t FUSION_API (RunData *const run_data, ac_param_t const param0, ac_param_t const param1) noexcept;
+	using  condition_func =  condition_return_t FUSION_API (RunData *const run_data, ac_param_t const param0, ac_param_t const param1) noexcept;
+	using expression_func = expression_return_t FUSION_API (RunData *const run_data, e_params_t const params_handle) noexcept;
 
 	using     action_func_pointer =     action_func *;
 	using  condition_func_pointer =  condition_func *;
@@ -433,10 +438,10 @@ void FUSION_API SetTextAlignment(mv *const mV, SerializedEditData *serialized_ed
 fusion::boolean FUSION_API GetProperties(mv *const mV, SerializedEditData *serialized_edit_data, fusion::boolean const master_item) noexcept;
 
 #define FUSION_GET_PROPERTY_PARAM
-std::int32_t FUSION_API GetPropCreateParam(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id) noexcept;
+std::int32_t FUSION_API GetPropCreateParam(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id) noexcept;
 
 #define FUSION_FREE_PROPERTY_PARAM
-void FUSION_API ReleasePropCreateParam(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id, std::int32_t const param) noexcept;
+void FUSION_API ReleasePropCreateParam(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id, std::int32_t const param) noexcept;
 
 #define FUSION_FREE_PROPERTIES
 void FUSION_API ReleaseProperties(mv *const mV, SerializedEditData *serialized_edit_data, fusion::boolean const master_item) noexcept;
@@ -444,28 +449,28 @@ void FUSION_API ReleaseProperties(mv *const mV, SerializedEditData *serialized_e
 #define FUSION_IS_PROPERTY_ENABLED
 #define FUSION_IS_PROPERTY_ENABLED_ENABLED TRUE
 #define FUSION_IS_PROPERTY_ENABLED_DISABLED FALSE
-fusion::boolean FUSION_API IsPropEnabled(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id) noexcept;
+fusion::boolean FUSION_API IsPropEnabled(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id) noexcept;
 
 #define FUSION_GET_PROPERTY_VALUE
-CPropValue *FUSION_API GetPropValue(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id) noexcept;
+CPropValue *FUSION_API GetPropValue(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id) noexcept;
 
 #define FUSION_GET_PROPERTY_CHECKBOX
 #define FUSION_GET_PROPERTY_CHECKBOX_TICKED TRUE
 #define FUSION_GET_PROPERTY_CHECKBOX_UNTICKED FALSE
-fusion::boolean FUSION_API GetPropCheck(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id) noexcept;
+fusion::boolean FUSION_API GetPropCheck(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id) noexcept;
 
 #define FUSION_SET_PROPERTY_VALUE
-void FUSION_API SetPropValue(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id, CPropValue *const property_value) noexcept;
+void FUSION_API SetPropValue(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id, CPropValue *const property_value) noexcept;
 
 #define FUSION_SET_PROPERTY_CHECKBOX
 #define FUSION_SET_PROPERTY_CHECKBOX_TICKED TRUE
 #define FUSION_SET_PROPERTY_CHECKBOX_UNTICKED FALSE
-void FUSION_API SetPropCheck(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id, fusion::boolean const ticked) noexcept;
+void FUSION_API SetPropCheck(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id, fusion::boolean const ticked) noexcept;
 
 #define FUSION_PROPERTY_BUTTON_PRESSED
-#define FUSION_PROPERTY_BUTTON_PRESSED_NO_REFRESH FALSE
-#define FUSION_PROPERTY_BUTTON_PRESSED_DO_REFRESH TRUE
-fusion::boolean FUSION_API EditProp(mv *const mV, SerializedEditData *serialized_edit_data, std::uint32_t const property_id) noexcept;
+#define FUSION_PROPERTY_BUTTON_PRESSED_CANCEL_CHANGES FALSE
+#define FUSION_PROPERTY_BUTTON_PRESSED_SAVE_CHANGES TRUE
+fusion::boolean FUSION_API EditProp(mv *const mV, SerializedEditData *serialized_edit_data, std::int32_t const property_id) noexcept;
 
 #endif
 

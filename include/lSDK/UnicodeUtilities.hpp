@@ -2,6 +2,7 @@
 #define lSDK_UnicodeUtilities_HeaderPlusPlus
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -27,19 +28,19 @@ namespace lSDK
 	using string_view16_t = std::wstring_view;
 	using string_view_t = unicode_type<string_view8_t, string_view16_t>;
 
-	string16_t wide_from_narrow(string_view8_t  const &s);
-	string8_t  narrow_from_wide(string_view16_t const &s);
+	string16_t wide_from_narrow(string_view8_t , std::optional<std::uint32_t> codepage = std::nullopt);
+	string8_t  narrow_from_wide(string_view16_t, std::optional<std::uint32_t> codepage = std::nullopt);
 
-	string16_t inline   wide_from(string_view16_t   const &s){ return string16_t{s};       }
-	string16_t inline   wide_from(string_view8_t    const &s){ return wide_from_narrow(s); }
-	string8_t  inline narrow_from(string_view8_t    const &s){ return string8_t{s};        }
-	string8_t  inline narrow_from(string_view16_t   const &s){ return narrow_from_wide(s); }
+	string16_t inline   wide_from(string_view16_t   const s, std::optional<std::uint32_t> const /******/ = std::nullopt){ return string16_t{s};                 }
+	string16_t inline   wide_from(string_view8_t    const s, std::optional<std::uint32_t> const codepage = std::nullopt){ return wide_from_narrow(s, codepage); }
+	string8_t  inline narrow_from(string_view8_t    const s, std::optional<std::uint32_t> const /******/ = std::nullopt){ return string8_t{s};                  }
+	string8_t  inline narrow_from(string_view16_t   const s, std::optional<std::uint32_t> const codepage = std::nullopt){ return narrow_from_wide(s, codepage); }
 #ifdef UNICODE
-	string16_t inline string_t_from(string_view8_t  const &s){ return wide_from_narrow(s); }
-	string16_t inline string_t_from(string_view16_t const &s){ return string16_t{s};       }
+	string16_t inline string_t_from(string_view8_t  const s, std::optional<std::uint32_t> const codepage = std::nullopt){ return wide_from_narrow(s, codepage); }
+	string16_t inline string_t_from(string_view16_t const s, std::optional<std::uint32_t> const /******/ = std::nullopt){ return string16_t{s};                 }
 #else
-	string8_t  inline string_t_from(string_view8_t  const &s){ return string8_t{s};        }
-	string8_t  inline string_t_from(string_view16_t const &s){ return narrow_from_wide(s); }
+	string8_t  inline string_t_from(string_view8_t  const s, std::optional<std::uint32_t> const /******/ = std::nullopt){ return string8_t{s};                  }
+	string8_t  inline string_t_from(string_view16_t const s, std::optional<std::uint32_t> const codepage = std::nullopt){ return narrow_from_wide(s, codepage); }
 #endif
 
 	template<typename Numeric>
@@ -54,31 +55,32 @@ namespace lSDK
 	}
 
 	template<typename CharacterTo, typename CharacterFrom>
-	auto convert_to(std::basic_string_view<CharacterFrom> const &s)
+	auto convert_to(std::basic_string_view<CharacterFrom> const s, [[maybe_unused]] std::optional<std::uint32_t> const codepage = std::nullopt)
 	-> std::basic_string<CharacterTo>
 	{
+		static_assert(
+			std::is_same_v<CharacterTo, CharacterFrom> ||
+			std::is_same_v<CharacterTo, string8_t::value_type> ||
+			std::is_same_v<CharacterTo, string16_t::value_type>
+		);
 		if constexpr(std::is_same_v<CharacterTo, CharacterFrom>)
 		{
 			return std::basic_string<CharacterTo>{s};
 		}
 		else if constexpr(std::is_same_v<CharacterTo, string8_t::value_type>)
 		{
-			return narrow_from(s);
+			return narrow_from(s, codepage);
 		}
 		else if constexpr(std::is_same_v<CharacterTo, string16_t::value_type>)
 		{
-			return wide_from(s);
-		}
-		else if constexpr(true)
-		{
-			static_assert(false, "Unknown character type");
+			return wide_from(s, codepage);
 		}
 	}
 	template<typename CharacterTo, typename CharacterFrom>
-	auto convert_to(std::basic_string<CharacterFrom> const &s)
+	auto convert_to(std::basic_string<CharacterFrom> const s, std::optional<std::uint32_t> const codepage = std::nullopt)
 	-> std::basic_string<CharacterTo>
 	{
-		return convert_to<CharacterTo, CharacterFrom>(static_cast<std::basic_string_view<CharacterFrom>>(s));
+		return convert_to<CharacterTo, CharacterFrom>(static_cast<std::basic_string_view<CharacterFrom>>(s), codepage);
 	}
 }
 
